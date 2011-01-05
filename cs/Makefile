@@ -1,3 +1,5 @@
+#MINIFY=| perl -MJavaScript::Minifier -e"print JavaScript::Minifier::minify(input=>*STDIN)"
+
 V8CGI_ROOT=c:\Progra~1\v8cgi\ 
 V8CGI_BIN=$(V8CGI_ROOT)v8cgi -c $(V8CGI_ROOT)v8cgi.conf ../tools/
 
@@ -28,11 +30,13 @@ ALL_OBJECTS=$(V8CGI_SQLITE_OBJECTS) $(V8CGI_MYSQL_OBJECTS) $(TEST_OBJECTS)
 .cs.js:
 	$(CSC) $< > $@
 
+all: all_libs
+
 $(V8CGI_MYSQL_LIB):  $(V8CGI_MYSQL_OBJECTS)
-	$(CSL) $(V8CGI_MYSQL_OBJECTS) > $(V8CGI_MYSQL_LIB)
+	$(CSL) $(V8CGI_MYSQL_OBJECTS) $(MINIFY) > $(V8CGI_MYSQL_LIB)
 
 $(V8CGI_SQLITE_LIB):  $(V8CGI_SQLITE_OBJECTS)
-	$(CSL) $(V8CGI_SQLITE_OBJECTS) > $(V8CGI_SQLITE_LIB)
+	$(CSL) $(V8CGI_SQLITE_OBJECTS)$(MINIFY) > $(V8CGI_SQLITE_LIB)
 
 clean:
 	$(RM) $(ALL_OBJECTS)
@@ -46,4 +50,3 @@ test: test_script
 
 all_libs: $(ALL_LIBS)
 
-all: all_libs
