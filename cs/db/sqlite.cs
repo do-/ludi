@@ -1,2 +1,4 @@
 
-Db::escape  = (s)   -> "'" + (('' + s).replace /\'/i, "''") + "'"
+Db::escape  = (s)   ->
+    return 'NULL' unless s?
+    "'" + (('' + s).replace /\'/i, "''") + "'"
