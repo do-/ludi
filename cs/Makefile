@@ -7,7 +7,7 @@ CSC=$(V8CGI_BIN)csc.js
 CSL=$(V8CGI_BIN)csl.js 
 RM=$(V8CGI_BIN)rm.js 
 
-COMMON_SOURCES=eludia.cs db.cs wish.cs wish/table_data.cs wish/table_columns.cs wish/table_keys.cs
+COMMON_SOURCES=eludia.cs db.cs model.cs wish.cs wish/table_data.cs wish/table_columns.cs wish/table_keys.cs
 SQLITE_SOURCES=db/sqlite.cs db/sqlite/wish/table_columns.cs db/sqlite/wish/table_keys.cs
 
 V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.cs js/v8cgi/mysql_sqlite.cs js/v8cgi/sqlite.cs
