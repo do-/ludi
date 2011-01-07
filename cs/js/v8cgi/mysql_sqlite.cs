@@ -8,6 +8,7 @@ Db::prepare = (sql) -> sql.split '\?'
 Db::execute = (qp) ->
     [query, params] = if typeof qp is 'object' then qp else [qp, []]
     params ?= []
+    params = [params] unless typeof params is 'object'
     i = 0
     q = @prepare query
     sql = q.shift 0; sql += ((@escape params[i++]) + s) for s in q
