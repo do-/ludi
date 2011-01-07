@@ -32,7 +32,7 @@ class Wish
         darn young if @options.debug
         return @todo.create.push young      unless (old = @existing[key])?
         @update_demands old, young
-        return                              if (Dumper old) is (Dumper young)
+        return                              if eq old, young
         @schedule_modifications old, young
         return                              unless @is_virgin
         @schedule_cleanup()
@@ -42,7 +42,10 @@ class Wish
         darn layer if @options.debug
         @existing = {}
         @explore_existing()
+        darn @existing if @options.debug
         @todo     = {create: []}
-        @plan_todo layer, key      for key     of layer
+        @plan_todo layer, key for key of layer
         darn @todo if @options.debug
-        @[action] @todo[action]    for action  of @todo
+        for action of @todo
+            todo = @todo[action]
+            @[action] todo if todo.length > 0
