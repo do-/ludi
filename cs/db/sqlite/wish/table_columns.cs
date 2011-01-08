@@ -57,6 +57,8 @@ WishTableColumns::explore_existing = () ->
 
 WishTableColumns::clarify_demands = (item) ->
     @adjust_field_options (item)
+    item.ref = undefined
+    item.comment = undefined
 
 WishTableColumns::add_sql = (item) ->
     item.sql = "#{item.name} #{item.type}"
@@ -82,7 +84,7 @@ WishTableColumns::create = (items) ->
     existed = (i for i of @existing)
 
     if existed.length > 0
-        keys = db.column ["SELECT sql from sqlite_master WHERE type = 'index' AND tbl_name = ?", @options.table]
+        keys = db.column ["SELECT sql from sqlite_master WHERE type = 'index' AND tbl_name = ? AND sql IS NOT NULL", @options.table]
         db.do "CREATE TEMP TABLE __buffer AS SELECT * FROM #{@options.table}"
         db.do "DROP TABLE #{@options.table}"
 
@@ -102,7 +104,6 @@ WishTableColumns::create = (items) ->
         defs.push item.sql
         idx[item.name] = item
 
-
     db.do "CREATE TABLE #{@options.table} (#{defs})";
 
     if existed.length > 0
@@ -111,6 +112,7 @@ WishTableColumns::create = (items) ->
                 def = idx[name]?.default
                 if def? then "IFNULL(#{name}, '#{def}')" else name
         db.do "INSERT INTO  #{@options.table} (#{existed}) SELECT #{exprs} FROM __buffer";
+        db.do "DROP TABLE __buffer";
         db.do sql for sql in keys
 
     for name in ts

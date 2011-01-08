@@ -19,12 +19,29 @@ class Model
                 size     : 10
                 scale    : 2
 
+    assert: (options) ->
+        options ?= {}
+        for table_name of @tables
+            options.table = table_name
+            table         = @tables[table_name]
+            columns       = table.columns
+            col_list      = []
+            for i of columns
+                continue unless (col = columns[i])?
+                col_list.push col
+            (new WishTableColumns col_list, {debug:options.debug, table:table_name}).realize()
+            keys     = table.keys
+            key_list = ({name:i, parts:keys[i]} for i of keys)
+            (new WishTableKeys key_list,    {debug:options.debug, table:table_name}).realize()
+            (new WishTableData table.data,  {debug:options.debug, table:table_name}).realize()
+
     set: (name, table) ->
         t = (@tables[name] ?= {columns: {}, keys: {}, data: []})
         def t.columns, @default_columns
         for name of table.columns
             t.columns[name] = @parse_column name, table.columns[name]
         def t.keys, table.keys
+        def t.data, table.data
 
     parse_column: (name, src) ->
         if src is undefined

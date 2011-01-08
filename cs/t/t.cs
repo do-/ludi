@@ -24,10 +24,12 @@ try
 
     def model.default_columns,
         id:
+            name         : 'id'
             type         : 'INTEGER'
             pk           : true
             autoincrement: true
         id_session:
+            name         : 'id_session'
             type         : 'DECIMAL'
             size         : 20
             ref          : 'session'
@@ -37,6 +39,12 @@ try
             label: 'varchar'
         keys:
             label: 'label'
+        data:[
+            {
+                id:1
+                label:'admin'
+            }
+        ]
 
     model.set 'session',
         columns:
@@ -47,8 +55,8 @@ try
                 size         : 20
                 pk           : true
 
-
-    darn model.tables
+    model.assert
+        debug: on
 
 catch error
 

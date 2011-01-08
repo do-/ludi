@@ -3,9 +3,7 @@ WishTableKeys::explore_existing = () ->
 
     len = 1 + @options.table.length
 
-    db.do ["SELECT * FROM sqlite_master WHERE type = 'index' and tbl_name = ?", @options.table], (i) =>
-
-        darn i
+    db.do ["SELECT * FROM sqlite_master WHERE type = 'index' and tbl_name = ? AND sql IS NOT NULL", @options.table], (i) =>
 
         return unless m = i.sql.match(/\((.*)\)/)
 

@@ -10,14 +10,18 @@ class WishTableColumns extends Wish
         @adjust_dimension young, 'scale', old.scale
         @adjust_dimension young, 'size' , old.size + young.scale - old.scale
 
-    adjust_dimensions: (old, young, tests) ->
+    adjust_dimensions: (old, young) ->
         type = old.type
         return if type isnt young.type
         for t in ['char', 'decimal']
-            continue if type.search t.toUpperCase() < 0
+            continue if type.search(t.toUpperCase()) < 0
             @['adjust_dimensions_for_' + t] old, young
 
     update_demands: (old, young) ->
+        for item in [old, young]
+            for i in ['size', 'scale']
+                continue unless item[i]?
+                item[i] = parseInt(item[i])
         @adjust_dimensions(old, young)
 
     adjust_field_options: (item)    ->
