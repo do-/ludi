@@ -46,7 +46,7 @@ test_script: $(TEST_LIB) $(TEST_OBJECTS)
 	$(CSL) $(TEST_LIB) $(TEST_OBJECTS) > $(TEST_SCRIPT)
 
 test: test_script
-	$(V8CGI_BIN)../cs/$(TEST_SCRIPT)
+	$(V8CGI_BIN)../coffee/$(TEST_SCRIPT)
 #	$(RM) $(TEST_SCRIPT)
 
 all_libs: $(ALL_LIBS)
