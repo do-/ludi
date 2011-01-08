@@ -6,6 +6,7 @@ V8CGI_BIN=$(V8CGI_ROOT)v8cgi -c $(V8CGI_ROOT)v8cgi.conf ../tools/
 CSC=$(V8CGI_BIN)csc.js 
 CSL=$(V8CGI_BIN)csl.js 
 RM=$(V8CGI_BIN)rm.js 
+T=$(V8CGI_BIN)t.js 
 
 COMMON_SOURCES=eludia.coffee db.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_columns.coffee wish/table_keys.coffee
 SQLITE_SOURCES=db/sqlite.coffee db/sqlite/wish/table_columns.coffee db/sqlite/wish/table_keys.coffee
@@ -20,13 +21,13 @@ V8CGI_MYSQL_LIB=../js/v8cgi_mysql.jsl
 
 TEST_SOURCES=t/t.coffee
 TEST_OBJECTS=$(TEST_SOURCES:.coffee=.js)
-TEST_SCRIPT=__test.js
+TEST_SCRIPT=t/test.js
 TEST_LIB=$(V8CGI_SQLITE_LIB)
 
 ALL_LIBS=$(V8CGI_SQLITE_LIB) $(V8CGI_MYSQL_LIB)
 ALL_OBJECTS=$(V8CGI_SQLITE_OBJECTS) $(V8CGI_MYSQL_OBJECTS) $(TEST_OBJECTS)
 
-.SUFFIXES: .js .coffee
+.SUFFIXES: .js .coffee .t
 
 .coffee.js:
 	$(CSC) $< > $@
@@ -40,14 +41,16 @@ $(V8CGI_SQLITE_LIB):  $(V8CGI_SQLITE_OBJECTS)
 	$(CSL) $(V8CGI_SQLITE_OBJECTS)$(MINIFY) > $(V8CGI_SQLITE_LIB)
 
 clean:
-	$(RM) $(ALL_OBJECTS)
+	$(RM) $(ALL_OBJECTS) $(TEST_SOURCES) $(TEST_SCRIPT)
 
-test_script: $(TEST_LIB) $(TEST_OBJECTS)
+$(TEST_SOURCES): t/001_model_update.t 
+	$(T) t
+
+test_script: $(TEST_LIB) $(TEST_SOURCES) $(TEST_OBJECTS)
 	$(CSL) $(TEST_LIB) $(TEST_OBJECTS) > $(TEST_SCRIPT)
 
 test: test_script
 	$(V8CGI_BIN)../coffee/$(TEST_SCRIPT)
-#	$(RM) $(TEST_SCRIPT)
 
 all_libs: $(ALL_LIBS)
 
