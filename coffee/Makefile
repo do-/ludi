@@ -7,28 +7,28 @@ CSC=$(V8CGI_BIN)csc.js
 CSL=$(V8CGI_BIN)csl.js 
 RM=$(V8CGI_BIN)rm.js 
 
-COMMON_SOURCES=eludia.cs db.cs model.cs wish.cs wish/table_data.cs wish/table_columns.cs wish/table_keys.cs
-SQLITE_SOURCES=db/sqlite.cs db/sqlite/wish/table_columns.cs db/sqlite/wish/table_keys.cs
+COMMON_SOURCES=eludia.coffee db.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_columns.coffee wish/table_keys.coffee
+SQLITE_SOURCES=db/sqlite.coffee db/sqlite/wish/table_columns.coffee db/sqlite/wish/table_keys.coffee
 
-V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.cs js/v8cgi/mysql_sqlite.cs js/v8cgi/sqlite.cs
-V8CGI_SQLITE_OBJECTS=$(V8CGI_SQLITE_SOURCES:.cs=.js)
+V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/sqlite.coffee
+V8CGI_SQLITE_OBJECTS=$(V8CGI_SQLITE_SOURCES:.coffee=.js)
 V8CGI_SQLITE_LIB=../js/v8cgi_sqlite.jsl
 
-V8CGI_MYSQL_SOURCES=$(COMMON_SOURCES) db/sqlite.cs js/v8.cs js/v8cgi/mysql_sqlite.cs js/v8cgi/mysql.cs
-V8CGI_MYSQL_OBJECTS=$(V8CGI_MYSQL_SOURCES:.cs=.js)
+V8CGI_MYSQL_SOURCES=$(COMMON_SOURCES) db/sqlite.coffee js/v8.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/mysql.coffee
+V8CGI_MYSQL_OBJECTS=$(V8CGI_MYSQL_SOURCES:.coffee=.js)
 V8CGI_MYSQL_LIB=../js/v8cgi_mysql.jsl
 
-TEST_SOURCES=t/t.cs
-TEST_OBJECTS=$(TEST_SOURCES:.cs=.js)
+TEST_SOURCES=t/t.coffee
+TEST_OBJECTS=$(TEST_SOURCES:.coffee=.js)
 TEST_SCRIPT=__test.js
 TEST_LIB=$(V8CGI_SQLITE_LIB)
 
 ALL_LIBS=$(V8CGI_SQLITE_LIB) $(V8CGI_MYSQL_LIB)
 ALL_OBJECTS=$(V8CGI_SQLITE_OBJECTS) $(V8CGI_MYSQL_OBJECTS) $(TEST_OBJECTS)
 
-.SUFFIXES: .js .cs
+.SUFFIXES: .js .coffee
 
-.cs.js:
+.coffee.js:
 	$(CSC) $< > $@
 
 all: all_libs
