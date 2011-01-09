@@ -27,6 +27,23 @@ Db::insert = (table, record) ->
         values.push record[i]
     @do ["INSERT INTO #{table} (#{fields}) VALUES (#{places})", values]
 
+Db::delete = (table, record) ->
+    pk = model.pk table
+    id = if typeof record is 'object' then record[pk] else record
+    @do ["DELETE FROM #{table} WHERE #{pk}=?", id]
+
+Db::update = (table, record) ->
+    fields = []
+    places = []
+    values = []
+    pk = model.pk table
+    for i of record
+        continue if i is pk
+        fields.push "#{i}=?"
+        values.push record[i]
+    values.push record[pk]
+    @do ["UPDATE #{table} SET #{fields} WHERE #{pk}=?", values]
+
 Db::_get_hash_getter  = (i, fieldNames) ->
     c = ((@_code_cache ?= {})._get_hash_getter ?= {});
     c[Dumper fieldNames] ?= db._gen_hash_getter fieldNames
