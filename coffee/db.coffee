@@ -13,6 +13,10 @@ class Db
     arrays  : (qp)           -> @do  qp, @_append_a, {init:   [], row: @_get_array}
     objects : (qp, idx)      -> @do  qp, @_append_a, {init:   [], row: @_get_object, idx: idx}
 
+Db::insert_id = (table, record) ->
+    @insert(table, record)
+    @_insertId()
+
 Db::insert = (table, record) ->
     fields = []
     places = []

@@ -20,8 +20,9 @@ model.assert()
 
 db.do "DELETE FROM user"
 
-db.insert 'user', 
+id = db.insert_id 'user', 
 	label: 'admin'
 
-assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1, "the right record is not found";
-assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0, "wrong records found";
+assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1,  "the right record is not found";
+assert.equal db.scalar(['SELECT id       FROM user WHERE label = ?',  'admin']), id, "wrong insert id";
+assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0,  "wrong records found";
