@@ -39,4 +39,33 @@ db.delete 'user',
 	id   : id
 	label: 'foo'
 
-assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 0,  "delete failed";
+assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 0,  "delete record failed";
+
+
+
+id = db.set 'user', {label:'admin', id_session: [0]}, 'label'
+
+o = db.object(['SELECT * FROM user WHERE id = ?', id])
+
+assert.deepEqual o, {id:id, label:'admin', id_session: 0}, "insert by db.set failed";	
+
+
+db.set 'user', {label:'admin', id_session: [-1]}, 'label'
+
+o = db.object(['SELECT * FROM user WHERE id = ?', id])
+
+assert.deepEqual o, {id:id, label:'admin', id_session: 0}, "non-mandatory update by db.set";	
+
+
+
+db.set 'user', {label:'admin', id_session: -1}, 'label'
+
+o = db.object(['SELECT * FROM user WHERE id = ?', id])
+
+assert.deepEqual o, {id:id, label:'admin', id_session: -1}, "failed mandatory update by db.set";
+
+
+
+db.delete 'user', id
+
+assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 0,  "delete by pk failed";

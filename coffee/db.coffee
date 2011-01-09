@@ -24,8 +24,42 @@ Db::insert = (table, record) ->
     for i of record
         fields.push i
         places.push '?'
-        values.push record[i]
+        values.push if typeof record[i] is 'object' then record[i][0] else record[i]
     @do ["INSERT INTO #{table} (#{fields}) VALUES (#{places})", values]
+
+Db::set = (table, record, key) ->
+    pk     = model.pk table
+    key   ?= pk
+    key    = [key] unless typeof key is 'object'
+    fields = []
+    params = []
+    for i in key
+        fields.push " AND #{i}=?"
+        params.push record[i]
+    return @insert_id(table, record) unless (id = db.scalar(["SELECT #{pk} FROM #{table} WHERE 1=1#{fields}", params]))
+    mandatory = {}
+    for i of record
+        value = record[i]
+        continue if typeof value is 'object'
+        mandatory[i] = value
+    for i in key
+        mandatory[i] = undefined
+    mandatory_fields = (i for i of mandatory)
+    return id if mandatory_fields.length == 0
+    o = db.object ["SELECT #{mandatory_fields} FROM #{table} WHERE #{pk} = ?", id]
+    fields = []
+    params = []
+    for i of mandatory
+        v = mandatory[i]
+        continue if v is undefined
+        v = '' + v if v?
+        continue if o[i] is v
+        fields.push "#{i}=?"
+        params.push v
+    return id if fields.length == 0
+    params.push id
+    db.do ["UPDATE #{table} SET #{fields} WHERE #{pk} = ?", params]
+    return id
 
 Db::delete = (table, record) ->
     pk = model.pk table
