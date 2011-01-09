@@ -34,7 +34,7 @@ class Wish
         young = layer[key]
         debug ' Item to analyze', young if @options.debug
         unless (old = @existing[key])?
-            say ' Not found in existing'
+            say ' Not found in existing' if @options.debug
             return @todo.create.push young
         @update_demands old, young
         debug '  Old to compare', old   if @options.debug

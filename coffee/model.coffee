@@ -19,6 +19,12 @@ class Model
                 size     : 10
                 scale    : 2
 
+    pk: (name) ->
+        columns = @tables[name].columns
+        for i of columns
+            column = columns[i]
+            return column.name if column.pk
+
     assert: (options) ->
         options ?= {}
         for table_name of @tables
