@@ -33,4 +33,4 @@ model.set 'session',
 
 model.assert()
 
-assert.deepEqual db.objects('SELECT * FROM user'), [{id:1, label:'admin'}], "user data skewed";
+assert.deepEqual db.objects('SELECT * FROM user WHERE id = 1'), [{id:1, label:'admin'}], "user data skewed";

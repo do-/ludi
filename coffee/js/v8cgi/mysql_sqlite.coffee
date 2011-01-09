@@ -17,6 +17,8 @@ Db::execute = (qp) ->
 
 Db::arrays = (qp) -> (@execute qp).fetchArrays 0
 
+Db::_insertId = () -> _db.insertId()
+
 Db::do = (qp, callback, options) ->
 
     @._gen_hash_accessor ?= 'rs[$1]'

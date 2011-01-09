@@ -13,6 +13,16 @@ class Db
     arrays  : (qp)           -> @do  qp, @_append_a, {init:   [], row: @_get_array}
     objects : (qp, idx)      -> @do  qp, @_append_a, {init:   [], row: @_get_object, idx: idx}
 
+Db::insert = (table, record) ->
+    fields = []
+    places = []
+    values = []
+    for i of record
+        fields.push i
+        places.push '?'
+        values.push record[i]
+    @do ["INSERT INTO #{table} (#{fields}) VALUES (#{places})", values]
+
 Db::_get_hash_getter  = (i, fieldNames) ->
     c = ((@_code_cache ?= {})._get_hash_getter ?= {});
     c[Dumper fieldNames] ?= db._gen_hash_getter fieldNames
