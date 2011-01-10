@@ -17,6 +17,13 @@ Db::insert_id = (table, record) ->
     @insert(table, record)
     @_insertId()
 
+Db::clone = (table, record, over) ->
+    pk = model.pk table
+    over[pk] = undefined;
+    record[i] = over[i] for i of over
+    record[pk] = @insert_id table, record
+    return record
+
 Db::insert = (table, record) ->
     fields = []
     places = []
@@ -27,7 +34,7 @@ Db::insert = (table, record) ->
         values.push if typeof record[i] is 'object' then record[i][0] else record[i]
     @do ["INSERT INTO #{table} (#{fields}) VALUES (#{places})", values]
 
-Db::set = (table, record, key) ->
+Db::get_id = (table, record, key) ->
     pk     = model.pk table
     key   ?= pk
     key    = [key] unless typeof key is 'object'
