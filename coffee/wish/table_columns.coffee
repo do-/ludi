@@ -23,12 +23,27 @@ class WishTableColumns extends Wish
                 continue unless item[i]?
                 item[i] = parseInt(item[i])
         @adjust_dimensions(old, young)
+        for item in [old, young]
+            @adjust_field_options(item)
+            for i of item
+                delete item[i] unless i in [
+                    'autoincrement'
+                    'default'
+                    'name'
+                    'nullable'
+                    'pk'
+                    'scale'
+                    'size'
+                    'type'
+                ]
+        return null
 
     adjust_field_options: (item)    ->
         item.pk            ?= false
         item.autoincrement ?= false
         item.default        = if item.default? then '' + item.default else null
-        item.nullable      ?= (not item.default?) and not (item.autoincrement)
+        item.nullable      ?= (not item.default?)
+        item.nullable       = false if item.autoincrement
         item.type           = item.type.toUpperCase()
         item.type           = 'DECIMAL' if item.type is 'NUMERIC'
         switch item.type

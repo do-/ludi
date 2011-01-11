@@ -18,7 +18,10 @@ class Wish
         @clarify_demands i for i in @items
         @split_layers()
         debug 'Layers', @layers if @options.debug
-        @scan_layer      i for i in @layers
+        sum = 0
+        for i in @layers
+            sum += @scan_layer i
+        sum
 
     split_layers: () ->
         key_cnt   = {}
@@ -56,6 +59,11 @@ class Wish
         @todo     = {create: []}
         @plan_todo layer, key for key of layer
         debug 'Todo list', @todo if @options.debug
+        sum = 0
         for action of @todo
             todo = @todo[action]
-            @[action] todo if todo.length > 0
+            len = todo.length
+            continue if len == 0
+            sum += len
+            @[action] todo
+        sum

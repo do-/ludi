@@ -35,11 +35,12 @@ class Model
             for i of columns
                 continue unless (col = columns[i])?
                 col_list.push col
-            (new WishTableColumns col_list, {debug:options.debug, table:table_name}).realize()
+            sum = (new WishTableColumns col_list, {debug:options.debug, table:table_name}).realize()
             keys     = table.keys
             key_list = ({name:i, parts:keys[i]} for i of keys)
-            (new WishTableKeys key_list,    {debug:options.debug, table:table_name}).realize()
-            (new WishTableData table.data,  {debug:options.debug, table:table_name}).realize()
+            sum += (new WishTableKeys key_list,    {debug:options.debug, table:table_name}).realize()
+            sum += (new WishTableData table.data,  {debug:options.debug, table:table_name}).realize()
+            return sum
 
     set: (name, table) ->
         t = (@tables[name] ?= {columns: {}, keys: {}, data: []})

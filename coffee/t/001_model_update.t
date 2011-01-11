@@ -36,3 +36,7 @@ assert.equal(model.pk('user'), 'id')
 model.assert()
 
 assert.deepEqual db.objects('SELECT * FROM user WHERE id = 1'), [{id:1, label:'admin'}], "user data skewed";
+
+sum = model.assert()
+
+assert.equal(sum, 0, "Unneeded actions performed")
