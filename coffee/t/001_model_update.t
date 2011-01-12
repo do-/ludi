@@ -1,4 +1,4 @@
-def model.default_columns,
+def model.default.columns,
     id:
         name         : 'id'
         type         : 'INTEGER'

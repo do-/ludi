@@ -2,7 +2,7 @@ class Model
 
     constructor: () ->
         @tables          = {}
-        @default_columns = {}
+        @default         = {columns: {}, keys: {}}
         @types =
             ref:
                 type     : 'INTEGER'
@@ -44,7 +44,7 @@ class Model
 
     set: (name, table) ->
         t = (@tables[name] ?= {columns: {}, keys: {}, data: []})
-        def t.columns, @default_columns
+        def t.columns, @default.columns
         for name of table.columns
             t.columns[name] = @parse_column name, table.columns[name]
         def t.keys, table.keys

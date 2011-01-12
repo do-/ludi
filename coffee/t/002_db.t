@@ -1,4 +1,4 @@
-def model.default_columns,
+def model.default.columns,
     id:
         name         : 'id'
         type         : 'INTEGER'
@@ -9,6 +9,7 @@ def model.default_columns,
         type         : 'DECIMAL'
         size         : 20
         ref          : 'session'
+        
 
 model.set 'user',
     columns:
@@ -69,16 +70,12 @@ id1 = db.insert_id 'user',
 
 o = db.object ['SELECT * FROM user WHERE id = ?', id1]
 
-try
 
-	id2 = (db.clone 'user', o, {id_session: 0}).id
+id2 = (db.clone 'user', o, {id_session: 0}).id
 
-	assert.notEqual id1, id2, "wrong clone ID"
-	assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ? AND id IN (?, ?)',  ['admin', id1, id2]]), 2,  "cloning failed";
-	assert.deepEqual db.array(['SELECT MIN(id_session), MAX(id_session) FROM user WHERE label = ? AND id IN (?, ?)',  ['admin', id1, id2]]), [-1, 0],  "cloning failed";
+assert.notEqual id1, id2, "wrong clone ID"
+assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ? AND id IN (?, ?)',  ['admin', id1, id2]]), 2,  "cloning failed";
+assert.deepEqual db.array(['SELECT MIN(id_session), MAX(id_session) FROM user WHERE label = ? AND id IN (?, ?)',  ['admin', id1, id2]]), [-1, 0],  "cloning failed";
 
-	db.do ('DELETE FROM user')
+db.do ('DELETE FROM user')
 	
-catch e
-	say e.stack
-	throw e
