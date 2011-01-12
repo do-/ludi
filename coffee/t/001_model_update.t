@@ -7,6 +7,7 @@ def model.default.columns,
         type         : 'DECIMAL'
         size         : 20
         ref          : 'session'
+        filter       : 0,
 
 model.set 'user',
     columns:
