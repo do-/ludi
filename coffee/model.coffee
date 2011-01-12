@@ -45,14 +45,18 @@ class Model
     set: (name, table) ->
         t = (@tables[name] ?= {columns: {}, keys: {}, data: []})
         def t.columns, @default.columns
-        for name of table.columns
-            t.columns[name] = @parse_column name, table.columns[name]
+        def t.columns, table.columns
+        for n of t.columns
+            column = t.columns[n]
+            if column?
+                t.columns[n] = @parse_column n, column
+            else
+                delete t.columns[n]
+        def t.keys, @default.keys
         def t.keys, table.keys
         def t.data, table.data
 
     parse_column: (name, src) ->
-        if src is undefined
-            return undefined
         if typeof src is 'object'
             src.name = name
             return src

@@ -1,11 +1,9 @@
 def model.default.columns,
     id:
-        name         : 'id'
         type         : 'INTEGER'
         pk           : true
         autoincrement: true
     id_session:
-        name         : 'id_session'
         type         : 'DECIMAL'
         size         : 20
         ref          : 'session'
