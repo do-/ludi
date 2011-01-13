@@ -1,15 +1,17 @@
 try
 
-    def model.default.columns,
-        id:
-            type         : 'INTEGER'
-            pk           : true
-            autoincrement: true
-        id_session:
-            type         : 'DECIMAL'
-            size         : 20
-            ref          : 'session'
-            filter       : 0,
+    model.set 'default',
+        default: true
+        columns:
+            id:
+                type         : 'INTEGER'
+                pk           : true
+                autoincrement: true
+            id_session:
+                type         : 'DECIMAL'
+                size         : 20
+                ref          : 'session'
+                filter       : 0
 
     model.set 'user',
         columns:

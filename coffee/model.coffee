@@ -2,7 +2,7 @@ class Model
 
     constructor: () ->
         @tables          = {}
-        @default         = {columns: {}, keys: {}}
+        @default         = []
         @types =
             ref:
                 type     : 'INTEGER'
@@ -30,6 +30,7 @@ class Model
         for table_name of @tables
             options.table = table_name
             table         = @tables[table_name]
+            continue      if table.abstract
             columns       = table.columns
             col_list      = []
             for i of columns
@@ -51,18 +52,27 @@ class Model
             return sum
 
     set: (name, table) ->
-        t = (@tables[name] ?= {columns: {}, keys: {}, data: []})
-        def t.columns, @default.columns
-        def t.columns, table.columns
+        table.abstract = true if table.default
+        t = (@tables[name] ?= {})
+        protos = (i for i in @default)
+        if table.proto?
+            p = table.proto
+            p = [p] unless typeof p is 'object'
+            protos.push i for i in p
+        protos.push table
+        for proto in protos
+            for key of proto
+                t[key] ?= {}
+                def t[key], proto[key]
+        for key in ['abstract', 'default']
+            t[key] = table[key]
         for n of t.columns
             column = t.columns[n]
             if column?
                 t.columns[n] = @parse_column n, column
             else
                 delete t.columns[n]
-        def t.keys, @default.keys
-        def t.keys, table.keys
-        def t.data, table.data
+        @default.push t if t.default
 
     parse_column: (name, src) ->
         if typeof src is 'object'
