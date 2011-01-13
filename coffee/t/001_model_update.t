@@ -14,12 +14,10 @@ model.set 'user',
         label: 'varchar'
     keys:
         label: 'label'
-    data:[
-        {
-            id:1
+    data:
+        1:
             label:'admin'
-        }
-    ]
+            id_session:0
 
 model.set 'session',
     columns:
@@ -34,7 +32,7 @@ assert.equal(model.pk('user'), 'id')
 
 model.assert()
 
-assert.deepEqual db.objects('SELECT * FROM user WHERE id = 1'), [{id:1, label:'admin'}], "user data skewed";
+assert.deepEqual db.objects('SELECT * FROM user WHERE id = 1'), [{id:1, label:'admin', id_session:0}], "user data skewed";
 
 sum = model.assert()
 

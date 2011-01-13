@@ -39,7 +39,15 @@ class Model
             keys     = table.keys
             key_list = ({name:i, parts:keys[i]} for i of keys)
             sum += (new WishTableKeys key_list,    {debug:options.debug, table:table_name}).realize()
-            sum += (new WishTableData table.data,  {debug:options.debug, table:table_name}).realize()
+            pk = model.pk table_name
+            data     = table.data
+            data_list = []
+            for i of data
+                item = data[i]
+                continue unless item?
+                item[pk] = i
+                data_list.push item
+            sum += (new WishTableData data_list,  {debug:options.debug, table:table_name}).realize()
             return sum
 
     set: (name, table) ->

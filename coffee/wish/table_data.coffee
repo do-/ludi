@@ -1,23 +1,17 @@
 class WishTableData extends Wish
 
     adjust_options: () ->
-        @options.root ?= {}
+        pk = model.pk @options.table
+        @options.get_key = (i) -> i[pk]
         @options.key  ?= 'id'
-        code  = 'this.options.get_key = function (i) {return ""';
-        code += ('+i.' + i) for i in @options.key.split(/\W+/)
-        eval code + '}';
-        @options.ids = '-1';
+        @options.ids = '-1'
 
-    clarify_demands:        (item)             ->
-        def item, @options.root
+    clarify_demands: (item)             ->
         @options.ids += (',' + item.id) if item.id?
 
     explore_existing: () ->
         sql = "SELECT * FROM #{@options.table} WHERE 1=1"
         params = []
-        for i of @options.root
-            sql += " AND #{i} = ?"
-            params.push @options.root[i]
         sql += " AND id IN (#{@options.ids})" if @options.ids isnt '-1'
         db.do [sql, params], (i) => @existing[@options.get_key(i)] = i
 
