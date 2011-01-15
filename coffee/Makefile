@@ -43,7 +43,7 @@ $(V8CGI_SQLITE_LIB):  $(V8CGI_SQLITE_OBJECTS)
 clean:
 	$(RM) $(ALL_OBJECTS) $(TEST_SOURCES) $(TEST_SCRIPT)
 
-$(TEST_SOURCES): t/001_model_update.t t/002_db.t  
+$(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t  
 	$(T) t
 
 test_script: $(TEST_LIB) $(TEST_SOURCES) $(TEST_OBJECTS)

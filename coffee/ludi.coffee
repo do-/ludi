@@ -16,3 +16,13 @@ eq = (a, b) ->
     for i of b
         return false if not eq a[i], b[i]
     true
+
+is_array = (o) ->
+    return false unless o?
+    return false unless typeof o is 'object'
+    return false unless typeof o.splice is 'function'
+    return false unless typeof o.length is 'number'
+    return false if o.propertyIsEnumerable('length')
+    return true
+
+
