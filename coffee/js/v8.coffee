@@ -1,4 +1,4 @@
-Dumper = (o) -> JSON.stringify (o)
+json   = (o) -> JSON.stringify (o)
 
 print  = (s) -> system.stdout  (s)
 

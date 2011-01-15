@@ -87,7 +87,7 @@ Db::update = (table, record) ->
 
 Db::_get_hash_getter  = (i, fieldNames) ->
     c = ((@_code_cache ?= {})._get_hash_getter ?= {});
-    c[Dumper fieldNames] ?= db._gen_hash_getter fieldNames
+    c[json fieldNames] ?= db._gen_hash_getter fieldNames
 
 Db::_gen_hash_getter  = (fieldNames) ->
     h = {}; i = 0
@@ -97,7 +97,7 @@ Db::_gen_hash_getter  = (fieldNames) ->
         r = h
         r = (r[part] ?= {}) for part in parts
         r[last] = i++
-    code = (Dumper h).replace /\:(\d+)/g, ':' + db._gen_hash_accessor
+    code = (json h).replace /\:(\d+)/g, ':' + db._gen_hash_accessor
     `var f; eval ('f = function (rs){return ' + code + '}');`
     f
 

@@ -1,8 +1,8 @@
 say  = (s) -> print s + "\n"
 
-darn = (o) -> say Dumper o; o
+darn = (o) -> say json o; o
 
-debug = (s, o) -> say s + ': ' + Dumper o; o
+debug = (s, o) -> say s + ': ' + json o; o
 
 eq = (a, b) ->
     return true   if not a? and not b?
