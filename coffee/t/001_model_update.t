@@ -23,6 +23,9 @@ try
             1:
                 label:'admin'
                 id_session:0
+            2:
+                label:'user'
+                id_session:0
 
     model.set 'session',
         columns:
@@ -37,7 +40,7 @@ try
 
     model.assert()
 
-    assert.deepEqual db.objects('SELECT * FROM user WHERE id = 1'), [{id:1, label:'admin', id_session:0}], "user data skewed";
+    assert.deepEqual db.objects('SELECT * FROM user WHERE id IN (1, 2) ORDER BY id'), [{id:1, label:'admin', id_session:0}, {id:2, label:'user', id_session:0}], "user data skewed";
 
     sum = model.assert()
 

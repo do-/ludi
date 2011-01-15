@@ -1,9 +1,8 @@
 class WishTableData extends Wish
 
     adjust_options: () ->
-        pk = model.pk @options.table
+        @options.pk = pk = model.pk @options.table
         @options.get_key = (i) -> i[pk]
-        @options.key  ?= 'id'
         @options.ids = '-1'
 
     clarify_demands: (item)             ->
@@ -24,6 +23,15 @@ class WishTableData extends Wish
     schedule_modifications: (old, young) ->
         (@todo.update ?= []).push (young)
 
+    _make_param_batch: (items, cols) ->
+        batch = []
+        for item in items
+            p = []
+            for col in cols
+                p.push item[col]
+            batch.push p
+        return batch
+
     create: (items) ->
         return if items.length == 0;
         cols = []; qsts = []
@@ -31,18 +39,20 @@ class WishTableData extends Wish
             cols.push i
             qsts.push '?'
         sql = "INSERT INTO #{@options.table} (#{cols}) VALUES (#{qsts})"
-        for item in items
-            db.do [sql, (item[col] for col in cols)]
+        db.do([
+            "INSERT INTO #{@options.table} (#{cols}) VALUES (#{qsts})"
+            @_make_param_batch items, cols
+        ])
 
     update: (items) ->
         return if items.length == 0;
         cols = []; qsts = []
         for i of items[0]
-            continue if i is 'id'
+            continue if i is @options.pk
             cols.push i
             qsts.push "#{i}=?"
-        cols.push 'id'
-        sql = "UPDATE #{@options.table} SET #{qsts} WHERE id=?"
-        for item in items
-            db.do [sql, (item[col] for col in cols)]
-
+        cols.push @options.pk
+        db.do([
+            "UPDATE #{@options.table} SET #{qsts} WHERE #{@options.pk}=?"
+            @_make_param_batch items, cols
+        ])

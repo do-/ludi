@@ -24,7 +24,7 @@ WishTableColumns::explore_existing = () ->
 
     fields = []
 
-    sql = db.scalar(["SELECT sql FROM sqlite_master WHERE type = ? AND name = ?", ['table', @options.table]])
+    sql = db.string(["SELECT sql FROM sqlite_master WHERE type = ? AND name = ?", ['table', @options.table]])
     sql ?= ''
 
     for i in sql.replace(/CREATE\s+TABLE\s+\w+\s*\((.*)\)\s*$/mi, '$1').split(re)
