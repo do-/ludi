@@ -3,15 +3,15 @@ class WishTableData extends Wish
     adjust_options: () ->
         @options.pk = pk = model.pk @options.table
         @options.get_key = (i) -> i[pk]
-        @options.ids = '-1'
+        @options.pks = '-1'
 
-    clarify_demands: (item)             ->
-        @options.ids += (',' + item.id) if item.id?
+    clarify_demands: (item) ->
+        @options.pks += (',' + item[@options.pk]) if item[@options.pk]?
 
     explore_existing: () ->
         sql = "SELECT * FROM #{@options.table} WHERE 1=1"
         params = []
-        sql += " AND id IN (#{@options.ids})" if @options.ids isnt '-1'
+        sql += " AND #{@options.pk} IN (#{@options.pks})" if @options.pks isnt '-1'
         db.do [sql, params], (i) => @existing[@options.get_key(i)] = i
 
     update_demands: (old, young) ->
