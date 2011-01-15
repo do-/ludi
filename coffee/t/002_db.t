@@ -5,7 +5,7 @@ try
         default: true
         columns:
             id:
-                type         : 'INTEGER'
+                type         : 'int'
                 pk           : true
                 autoincrement: true
             id_session:
@@ -27,23 +27,26 @@ try
     id = db.insert_id 'user', 
         label: 'admin'
 
-    assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1,  "the right record is not found";
-    assert.equal db.scalar(['SELECT id       FROM user WHERE label = ?',  'admin']), id, "wrong insert id";
-    assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0,  "wrong records found";
+    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1,  "the right record is not found";
+    assert.equal db.int(['SELECT id       FROM user WHERE label = ?',  'admin']), id, "wrong insert id";
+    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0,  "wrong records found";
 
     db.update 'user', 
         id   : id
         label: 'user'
 
-    assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 1,  "the right record is not found";
-    assert.equal db.scalar(['SELECT id       FROM user WHERE label = ?',  'user']), id, "wrong insert id";
-    assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label <> ?', 'user']), 0,  "wrong records found";
+    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 1,  "the right record is not found";
+    assert.equal db.int(['SELECT id       FROM user WHERE label = ?',  'user']), id, "wrong insert id";
+    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label <> ?', 'user']), 0,  "wrong records found";
 
     db.delete 'user', 
         id   : id
         label: 'foo'
 
-    assert.equal db.scalar(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 0,  "delete record failed";
+    cnt = db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'user'])
+
+    assert.equal cnt, 0,  "delete record failed";
+    assert.equal typeof cnt, 'number',  "not a number returned";
 
 
 

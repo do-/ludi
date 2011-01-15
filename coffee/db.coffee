@@ -4,7 +4,8 @@ class Db
     _append_s  : (record, result) -> result += ',' + record
     _append_a  : (record, result) -> result.push record; result
 
-    number  : (qp)           -> 0 + @scalar qp
+    int     : (qp)           -> parseInt(@scalar qp)
+    float   : (qp)           -> parseFloat(@scalar qp)
     string  : (qp)           -> new String @scalar qp
     one     : (qp, callback) -> @do  qp, @_set, {one: true, row: callback}
     scalar  : (qp)           -> @one qp, @_get_scalar
