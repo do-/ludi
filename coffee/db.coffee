@@ -27,15 +27,14 @@ Db::clone = (table, record, over) ->
     record[pk] = @insert_id table, record
     return record
 
-Db::insert = (table, record) ->
-    fields = []
-    places = []
-    values = []
-    for i of record
-        fields.push i
-        places.push '?'
-        values.push if typeof record[i] is 'object' then record[i][0] else record[i]
-    @do ["INSERT INTO #{table} (#{fields}) VALUES (#{places})", values]
+Db::make_param_batch = (items, cols) ->
+    batch = []
+    for item in items
+        p = []
+        for col in cols
+            p.push item[col]
+        batch.push p
+    return batch
 
 Db::get_id = (table, record, key) ->
     pk     = model.pk table
@@ -71,23 +70,6 @@ Db::get_id = (table, record, key) ->
     db.do ["UPDATE #{table} SET #{fields} WHERE #{pk} = ?", params]
     return id
 
-Db::delete = (table, record) ->
-    pk = model.pk table
-    id = if typeof record is 'object' then record[pk] else record
-    @do ["DELETE FROM #{table} WHERE #{pk}=?", id]
-
-Db::update = (table, record) ->
-    fields = []
-    places = []
-    values = []
-    pk = model.pk table
-    for i of record
-        continue if i is pk
-        fields.push "#{i}=?"
-        values.push record[i]
-    values.push record[pk]
-    @do ["UPDATE #{table} SET #{fields} WHERE #{pk}=?", values]
-
 Db::_get_hash_getter  = (i, fieldNames) ->
     c = ((@_code_cache ?= {})._get_hash_getter ?= {});
     c[json fieldNames] ?= db._gen_hash_getter fieldNames
@@ -104,4 +86,65 @@ Db::_gen_hash_getter  = (fieldNames) ->
     `var f; eval ('f = function (rs){return ' + code + '}');`
     f
 
+Db::insert = (table, data) ->
+    (new DbOperatorInsert(table, data)).do()
+
+Db::update = (table, data) ->
+    (new DbOperatorUpdate(table, data)).do()
+
+Db::delete = (table, data) ->
+    if typeof data isnt 'object'
+        id   = data
+        data = {}
+        data[model.pk table] = id
+    (new DbOperatorDelete(table, data)).do()
+
 db = new Db;
+
+class DbOperator
+
+    constructor: (@table, @data) ->
+        @items = if is_array @data then @data else [@data]
+        return if data.length is 0
+        item   = @items[0]
+        @pk    = model.pk @table
+        @cols  = []
+        has_pk  = false
+        for i of item
+            if i is @pk
+                has_pk = true
+                continue
+            @cols.push i
+        if has_pk
+            @cols.push @pk
+
+    do: () ->
+        return if @items.length == 0
+        sql    = @sql()
+        params = db.make_param_batch @items, @cols
+        db.do [sql, params]
+
+class DbOperatorInsert extends DbOperator
+
+    sql: () ->
+        n = []
+        q = []
+        for col in @cols
+            n.push db.quote_name col
+            q.push '?'
+        "INSERT INTO #{@table} (#{n}) VALUES (#{q})"
+
+class DbOperatorUpdate extends DbOperator
+
+    sql: () ->
+        throw "PK is not set" unless @cols[@cols.length - 1] is @pk
+        @cols.pop()
+        n = (db.quote_name(col) + '=?' for col in @cols)
+        @cols.push @pk
+        "UPDATE #{@table} SET #{n} WHERE #{db.quote_name @pk}=?"
+
+class DbOperatorDelete extends DbOperator
+
+    sql: () ->
+        @cols = [@pk]
+        "DELETE FROM #{@table} WHERE #{db.quote_name @pk}=?"

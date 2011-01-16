@@ -8,7 +8,7 @@ Db::prepare = (sql) ->
     code   = "'" + parts.shift() + "'"
     i = 0
     code  += "+db.escape(p[#{i++}])+'#{s}'" for s in parts
-    code   = "f = function (p) {return #{code}}"
+    code   = "f = function (p) {return darn(#{code})}"
     f = null
     eval code
     f

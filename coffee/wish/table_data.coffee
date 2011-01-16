@@ -23,36 +23,8 @@ class WishTableData extends Wish
     schedule_modifications: (old, young) ->
         (@todo.update ?= []).push (young)
 
-    _make_param_batch: (items, cols) ->
-        batch = []
-        for item in items
-            p = []
-            for col in cols
-                p.push item[col]
-            batch.push p
-        return batch
-
     create: (items) ->
-        return if items.length == 0;
-        cols = []; qsts = []
-        for i of items[0]
-            cols.push i
-            qsts.push '?'
-        sql = "INSERT INTO #{@options.table} (#{cols}) VALUES (#{qsts})"
-        db.do([
-            "INSERT INTO #{@options.table} (#{cols}) VALUES (#{qsts})"
-            @_make_param_batch items, cols
-        ])
+        db.insert @options.table, items
 
     update: (items) ->
-        return if items.length == 0;
-        cols = []; qsts = []
-        for i of items[0]
-            continue if i is @options.pk
-            cols.push i
-            qsts.push "#{i}=?"
-        cols.push @options.pk
-        db.do([
-            "UPDATE #{@options.table} SET #{qsts} WHERE #{@options.pk}=?"
-            @_make_param_batch items, cols
-        ])
+        db.update @options.table, items
