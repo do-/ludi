@@ -49,7 +49,7 @@ class Model
                 item[pk] = i
                 data_list.push item
             sum += (new WishTableData data_list,  {debug:options.debug, table:table_name}).realize()
-            return sum
+        return sum
 
     set: (name, table) ->
         table.abstract = true if table.default
