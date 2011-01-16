@@ -1,0 +1,58 @@
+
+try
+
+    model.set 'default',
+        default: true
+        columns:
+            id:
+                type         : 'int'
+                pk           : true
+                autoincrement: true
+
+    model.set 'plan',
+        columns:
+            year:   'int'
+            month:  'int'
+            amount: 'int'
+        keys:
+            ym:     'year,month'
+
+    model.assert()
+    
+    db.do ('DELETE FROM plan')
+
+    sql = 'SELECT month, amount FROM plan WHERE year = 2011 ORDER BY month'
+    cnt = 'SELECT COUNT(*) FROM plan'
+    
+    plan = [
+        {month:"1", amount:"100"}
+        {month:"2", amount:"200"}
+    ]    
+
+    db.put 'plan', plan, 'month', {year:"2011"};
+
+    fact = db.objects(sql)
+
+    assert.deepEqual fact, plan, "1st plan storing failed";    
+    assert.equal db.int(cnt), 2, "Wrong record number";    
+
+    plan = [
+        {month:"2", amount:"250"}
+        {month:"3", amount:"100"}
+    ]    
+
+    db.put 'plan', plan, 'month', {year:"2011"};
+    
+    fact = db.objects(sql)
+
+    assert.deepEqual fact, plan, "2nd plan storing failed";    
+    assert.equal db.int(cnt), 2, "Wrong record number";    
+
+    db.do ('DROP TABLE plan')
+
+catch e
+
+    say e.stack
+    throw e    
+    
+    

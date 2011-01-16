@@ -17,6 +17,8 @@ eq = (a, b) ->
         return false if not eq a[i], b[i]
     true
 
+clone = (o) -> eval json o
+
 is_array = (o) ->
     return false unless o?
     return false unless typeof o is 'object'

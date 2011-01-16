@@ -8,7 +8,7 @@ CSL=$(V8CGI_BIN)csl.js
 RM=$(V8CGI_BIN)rm.js 
 T=$(V8CGI_BIN)t.js 
 
-COMMON_SOURCES=ludi.coffee db.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_columns.coffee wish/table_keys.coffee
+COMMON_SOURCES=ludi.coffee db.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_data_rooted.coffee wish/table_columns.coffee wish/table_keys.coffee
 SQLITE_SOURCES=db/sqlite.coffee db/sqlite/wish/table_columns.coffee db/sqlite/wish/table_keys.coffee
 
 V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/sqlite.coffee
@@ -43,7 +43,7 @@ $(V8CGI_SQLITE_LIB):  $(V8CGI_SQLITE_OBJECTS)
 clean:
 	$(RM) $(ALL_OBJECTS) $(TEST_SOURCES) $(TEST_SCRIPT)
 
-$(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t  
+$(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t t/004_put.t  
 	$(T) t
 
 test_script: $(TEST_LIB) $(TEST_SOURCES) $(TEST_OBJECTS)

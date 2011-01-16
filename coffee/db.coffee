@@ -99,6 +99,9 @@ Db::delete = (table, data) ->
         data[model.pk table] = id
     (new DbOperatorDelete(table, data)).do()
 
+Db::put = (table, records, key, root) ->
+    (new WishTableDataRooted(records, {table: table, key:key, root:root})).realize()
+
 db = new Db;
 
 class DbOperator

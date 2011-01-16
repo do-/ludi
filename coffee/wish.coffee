@@ -1,6 +1,7 @@
 class Wish
 
     constructor: (@items, @options) ->
+        @items = clone @items
         @is_virgin = true
 
     adjust_options: () ->
@@ -39,6 +40,7 @@ class Wish
         unless (old = @existing[key])?
             say ' Not found in existing' if @options.debug
             return @todo.create.push young
+        @found[key] = true
         @update_demands old, young
         debug '  Old to compare', old   if @options.debug
         debug '  New to compare', young if @options.debug
@@ -48,7 +50,6 @@ class Wish
         say ' *** IT DIFFERS ***' if @options.debug
         @schedule_modifications old, young
         return                              unless @is_virgin
-        @schedule_cleanup()
         @is_virgin = false
 
     scan_layer: (layer) ->
@@ -57,7 +58,9 @@ class Wish
         @explore_existing()
         debug 'Existing items are', @existing if @options.debug
         @todo     = {create: []}
+        @found = {}
         @plan_todo layer, key for key of layer
+        @schedule_cleanup()
         debug 'Todo list', @todo if @options.debug
         sum = 0
         for action of @todo

@@ -23,8 +23,5 @@ class WishTableData extends Wish
     schedule_modifications: (old, young) ->
         (@todo.update ?= []).push (young)
 
-    create: (items) ->
-        db.insert @options.table, items
-
-    update: (items) ->
-        db.update @options.table, items
+    create: (items) -> db.insert @options.table, items
+    update: (items) -> db.update @options.table, items
