@@ -57,6 +57,7 @@ WishTableColumns::explore_existing = () ->
 
 WishTableColumns::clarify_demands = (item) ->
     @adjust_field_options (item)
+    item.type = 'INTEGER' if item.type.match(/INT/i)
     item.ref = undefined
     item.comment = undefined
 

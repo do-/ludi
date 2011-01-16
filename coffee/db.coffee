@@ -99,6 +99,13 @@ Db::delete = (table, data) ->
         data[model.pk table] = id
     (new DbOperatorDelete(table, data)).do()
 
+Db::undelete = (table, data) ->
+    if typeof data isnt 'object'
+        id   = data
+        data = {}
+        data[model.pk table] = id
+    (new DbOperatorUndelete(table, data)).do()
+
 Db::put = (table, records, key, root) ->
     (new WishTableDataRooted(records, {table: table, key:key, root:root})).realize()
 
@@ -150,4 +157,17 @@ class DbOperatorDelete extends DbOperator
 
     sql: () ->
         @cols = [@pk]
-        "DELETE FROM #{@table} WHERE #{db.quote_name @pk}=?"
+        t = model.tables[@table]
+        a = t.actuality_column
+        sql = "DELETE FROM #{@table}"
+        sql = "UPDATE #{@table} SET #{a} = #{db.escape(t.columns[a].actual_deleted[1])}" if a?
+        sql + " WHERE #{db.quote_name @pk}=?"
+
+class DbOperatorUndelete extends DbOperator
+
+    sql: () ->
+        @cols = [@pk]
+        t = model.tables[@table]
+        a = t.actuality_column
+        throw "actuality_column is not defined for #{@table}" unless a?
+        sql = "UPDATE #{@table} SET #{a} = #{db.escape(t.columns[a].actual_deleted[0])} WHERE #{db.quote_name @pk}=?"

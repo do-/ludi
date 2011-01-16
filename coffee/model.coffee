@@ -63,7 +63,7 @@ class Model
         for proto in protos
             for key of proto
                 t[key] ?= {}
-                def t[key], proto[key]
+                over t[key], proto[key]
         for key in ['abstract', 'default']
             t[key] = table[key]
         for n of t.columns
@@ -72,6 +72,11 @@ class Model
                 t.columns[n] = @parse_column n, column
             else
                 delete t.columns[n]
+        for n of t.columns
+            column = t.columns[n]
+            if column.actual_deleted
+                t.actuality_column = n
+                break
         @default.push t if t.default
 
     parse_column: (name, src) ->
