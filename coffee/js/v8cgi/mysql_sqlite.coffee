@@ -4,7 +4,7 @@ Db::_get_object  = (i) ->
     db._get_hash_getter i, db._last_rs.fetchNames 0
 
 Db::prepare = (sql) ->
-    parts  = (i.replace(/'/g, "\\'") for i in sql.split '\?')
+    parts  = (i.replace(/'/g, "\\'") for i in (""+sql).split '\?')
     code   = "'" + parts.shift() + "'"
     i = 0
     code  += "+db.escape(p[#{i++}])+'#{s}'" for s in parts
@@ -16,7 +16,9 @@ Db::prepare = (sql) ->
 Db::execute = (prepared_query, params) ->
     _db.query prepared_query(params)
 
-Db::arrays = (qp) -> (@execute qp).fetchArrays 0
+Db::arrays = (qp) ->
+    [query, params] = @qp qp
+    (@.execute @prepare query, params ?= []).fetchArrays()
 
 Db::_insertId = () -> _db.insertId()
 
@@ -24,7 +26,7 @@ Db::do = (qp, callback, options) ->
     @._gen_hash_accessor ?= 'rs[$1]'
     options ?= {}
     result = options.init
-    [query, params] = if is_array qp then qp else [qp, []]
+    [query, params] = @qp qp
     prepared_query = @prepare query
     params ?= []
     params = [params] unless is_array params

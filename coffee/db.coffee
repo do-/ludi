@@ -4,6 +4,11 @@ class Db
     _append_s  : (record, result) -> result += ',' + record
     _append_a  : (record, result) -> result.push record; result
 
+    qp      : (qp) ->
+        [query, params] = if is_array qp then qp else [qp, []]
+        query = (new Sql (query)).get() if is_array query
+        [query, params]
+
     int     : (qp)           -> parseInt(@scalar qp)
     float   : (qp)           -> parseFloat(@scalar qp)
     string  : (qp)           -> new String @scalar qp

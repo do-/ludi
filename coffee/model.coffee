@@ -97,8 +97,20 @@ class Model
             column.size     = m[1]
         if m = src.match(/\,\s*(\d+)\s*\)/)
             column.scale    = m[1]
+        if m = src.match(/\{(\d+)\}/)
+            column.order    = m[1]
         if m = src.match(/\#(.*)/)
             column.comment  = m[1]
         column
+
+    first_found_ref: (src, dest) ->
+        cols = @tables[src].columns
+        for i of cols
+            return i if cols[i].ref if dest
+        return undefined
+
+    order: (table_name, column_name) ->
+        result = @tables[table_name]?.columns[column_name]?.order
+        result ?= 1000000
 
 model = new Model
