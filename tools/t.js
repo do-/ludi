@@ -11,6 +11,7 @@ t_files = t_files.sort ();
 
 var out = new File (path + '/t.coffee');
 out.open  ('w');
+out.write ('log.handler.db = [undefined, "print_tree"]\n');
 out.write ('assert = require("assert")\n');
 out.write ('__test = {}\n');
 for (var i = 0; i < t_files.length; i ++) {

@@ -92,24 +92,32 @@ Db::_gen_hash_getter  = (fieldNames) ->
     f
 
 Db::insert = (table, data) ->
+    log.on 'db.insert', {label: json [table, data]}
     (new DbOperatorInsert(table, data)).do()
+    log.off 'db.insert'
 
 Db::update = (table, data) ->
+    log.on 'db.update', {label: json [table, data]}
     (new DbOperatorUpdate(table, data)).do()
+    log.off 'db.update'
 
 Db::delete = (table, data) ->
+    log.on 'db.delete', {label: json [table, data]}
     if typeof data isnt 'object'
         id   = data
         data = {}
         data[model.pk table] = id
     (new DbOperatorDelete(table, data)).do()
+    log.off 'db.delete'
 
 Db::undelete = (table, data) ->
+    log.on 'db.undelete', {label: json [table, data]}
     if typeof data isnt 'object'
         id   = data
         data = {}
         data[model.pk table] = id
     (new DbOperatorUndelete(table, data)).do()
+    log.off 'db.undelete'
 
 Db::put = (table, records, key, root) ->
     (new WishTableDataRooted(records, {table: table, key:key, root:root})).realize()

@@ -26,6 +26,7 @@ class Model
             return column.name if column.pk
 
     assert: (options) ->
+        log.on 'model.assert'
         options ?= {}
         for table_name of @tables
             options.table = table_name
@@ -49,6 +50,7 @@ class Model
                 item[pk] = i
                 data_list.push item
             sum += (new WishTableData data_list,  {debug:options.debug, table:table_name}).realize()
+        log.off 'model.assert'
         return sum
 
     set: (name, table) ->
