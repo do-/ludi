@@ -28,3 +28,8 @@ is_array = (o) ->
     return true
 
 
+String.prototype.by   = (n)        -> return '' if n <= 0; s = ''; s += @ for i in [1 .. n]; s
+String.prototype.rpad = (len, pad) -> @ + (pad ?= " ").by len - @.length
+String.prototype.lpad = (len, pad) -> ((pad ?= " ").by (len - @.length)) + @
+
+Date.prototype.toString = () -> sprintf "%04d-%02d-%02d %02d:%02d:%02d:%03d", @.getFullYear(), 1 + @.getMonth(), @.getDate(), @.getHours(), @.getMinutes(), @.getSeconds(), @.getMilliseconds()
