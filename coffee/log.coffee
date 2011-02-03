@@ -70,4 +70,4 @@ class Log
 
 log = new Log
 
-log.handler['model'] = new log.table_printer
+log.handler[''] = new log.tree_printer 5, 5

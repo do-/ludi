@@ -192,6 +192,11 @@ class Sql
 
     adjust_filters: (table) ->
         table.FILTERS = []
+        if table.IS_ROOT
+            t = model.tables[table.TABLE]
+            a = t.actuality_column
+            if a?
+                table[a] ?= t.columns[a].actual_deleted[0]
         for i of table
             continue if i.match (/^[A-Z][A-Z_]*$/)
             @add_filter table, i, table[i]
@@ -222,7 +227,7 @@ class Sql
         result = '';
         for i in filters
             continue unless i.IS_AGGR == is_aggr
-            result += ' AND ' if result.length = 0
+            result += ' AND ' if result.length > 0
             result += i.EXPRESSION
             @parameters.push j for j in i.VALUES
         return if result.length == 0 then '' else " #{keyword} #{result}"

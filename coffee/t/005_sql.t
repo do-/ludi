@@ -4,14 +4,14 @@ try
         default: true
         columns:
             id:
-                type         : 'INTEGER'
-                pk           : true
-                autoincrement: true
+                type           : 'INTEGER'
+                pk             : true
+                autoincrement  : true
             id_session:
-                type         : 'DECIMAL'
-                size         : 20
-                ref          : 'session'
-
+                type           : 'DECIMAL'
+                size           : 20
+                ref            : 'session'
+                actual_deleted : [null, -2]
     model.set 'user',
         options:
             order: 'label'

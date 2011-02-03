@@ -74,9 +74,10 @@ class Model
                 t.columns[n] = @parse_column n, column
             else
                 delete t.columns[n]
+        delete t.actuality_column
         for n of t.columns
             column = t.columns[n]
-            if column.actual_deleted
+            if is_array column.actual_deleted
                 t.actuality_column = n
                 break
         @default.push t if t.default
