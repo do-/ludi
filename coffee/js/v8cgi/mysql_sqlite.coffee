@@ -1,11 +1,11 @@
 Db::_get_scalar  = (i) -> i[0]
 Db::_get_array   = (i) -> i
 Db::_get_object  = (i) ->
-    db._get_hash_getter i, db._last_rs.fetchNames 0
+    db._get_hash_getter i, db._last_field_names
 
 Db::prepare = (sql) ->
     log.on 'db.prepare', {label: sql}
-    parts  = (i.replace(/'/g, "\\'") for i in (""+sql).split '\?')
+    parts  = (i.replace(/'/g, "\\'") for i in ((""+sql).replace(/\n/g, ' ')).split '\?')
     code   = "'" + parts.shift() + "'"
     i = 0
     code  += "+db.escape(p[#{i++}])+'#{s}'" for s in parts
@@ -54,15 +54,15 @@ Db::_do = (prepared_query, params, result, callback, options) ->
 
     return unless callback?
 
-    options.row ?= @_get_object
+    db._last_field_names = fieldNames = (i.toLowerCase() for i in rs.fetchNames());
 
-    fieldNames = rs.fetchNames 0;
+    options.row ?= @_get_object
 
     if options.idx?
         result.idx = {}
         options.idxidx = fieldNames.indexOf options.idx
 
-    for i in rs.fetchArrays 0
+    for i in rs.fetchArrays()
 
         row = options.row i, fieldNames
 

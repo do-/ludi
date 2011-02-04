@@ -1,6 +1,7 @@
 class Wish
 
     constructor: (@items, @options) ->
+#        @options.debug = 1
         @items = clone @items
         @is_virgin = true
 
