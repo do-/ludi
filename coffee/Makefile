@@ -8,7 +8,7 @@ CSL=$(V8CGI_BIN)csl.js
 RM=$(V8CGI_BIN)rm.js 
 T=$(V8CGI_BIN)t.js 
 
-COMMON_SOURCES=ludi.coffee sprintf.coffee log.coffee db.coffee sql.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_data_rooted.coffee wish/table_columns.coffee wish/table_keys.coffee
+COMMON_SOURCES=ludi.coffee sprintf.coffee log.coffee db.coffee sql.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_data_rooted.coffee wish/table_columns.coffee wish/table_keys.coffee testing.coffee
 SQLITE_SOURCES=db/sqlite.coffee db/sqlite/wish/table_columns.coffee db/sqlite/wish/table_keys.coffee
 MYSQL_SOURCES=db/mysql.coffee db/mysql/wish/table_columns.coffee db/mysql/wish/table_keys.coffee
 

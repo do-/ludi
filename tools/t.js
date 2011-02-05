@@ -11,7 +11,6 @@ t_files = t_files.sort ();
 
 var out = new File (path + '/t.coffee');
 out.open  ('w');
-out.write ('assert = require("assert")\n');
 out.write ('__test = {}\n');
 for (var i = 0; i < t_files.length; i ++) {
 	var file  = t_files [i];
@@ -24,6 +23,7 @@ for (var i = 0; i < t_files.length; i ++) {
 		out.write ('    ' + lines [j] + '\n');
 	}
 	inn.close ()
+	out.write ('__test.test_' + name + '()\n');
 } 
-out.write ('require("test").run(__test)\n');
+//out.write ('require("test").run(__test)\n');
 out.close ()
