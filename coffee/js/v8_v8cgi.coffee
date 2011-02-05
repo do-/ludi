@@ -1,0 +1,1 @@
+print  = (s) -> system.stdout  (s)

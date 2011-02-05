@@ -138,6 +138,7 @@ class DbOperator
         @cols  = []
         has_pk  = false
         for i of item
+            continue if typeof item[i] is 'undefined'
             if i is @pk
                 has_pk = true
                 continue

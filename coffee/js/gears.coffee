@@ -1,0 +1,1 @@
+print  = (s) -> document.write s

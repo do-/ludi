@@ -1,7 +1,5 @@
 json   = (o) -> JSON.stringify (o)
 
-print  = (s) -> system.stdout  (s)
-
 def    = (o, d) ->
 
     for i of d
