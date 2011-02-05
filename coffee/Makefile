@@ -49,15 +49,15 @@ $(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t t/004_put.t t/
 	$(T) t
 
 test_script_v8cgi_sqlite: $(V8_V8CGI_SQLITE_LIB) $(TEST_SOURCES) $(TEST_OBJECTS)
-	$(CSL) $(V8_V8CGI_SQLITE_LIB) $(TEST_OBJECTS) > $(TEST_SCRIPT_V8_V8CGI_SQLITE)
+	$(CSL) $(V8_V8CGI_SQLITE_LIB) ../js/sqlite_connect.js $(TEST_OBJECTS) > $(TEST_SCRIPT_V8_V8CGI_SQLITE)
 
 test_script_v8cgi_mysql: $(V8_V8CGI_MYSQL_LIB) $(TEST_SOURCES) $(TEST_OBJECTS)
-	$(CSL) $(V8_V8CGI_MYSQL_LIB) $(TEST_OBJECTS) > $(TEST_SCRIPT_V8_V8CGI_MYSQL)
+	$(CSL) $(V8_V8CGI_MYSQL_LIB) ../js/mysql_connect.js $(TEST_OBJECTS) > $(TEST_SCRIPT_V8_V8CGI_MYSQL)
 
 test_v8_v8cgi_sqlite: test_script_v8cgi_sqlite
 	$(V8_V8CGI_BIN)../coffee/$(TEST_SCRIPT_V8_V8CGI_SQLITE)
 
-test_v8_v8cgi_mysql: test_script_v8cgi_mysql
+test_v8_v8cgi_mysql: test_script_v8cgi_mysql	
 	$(V8_V8CGI_BIN)../coffee/$(TEST_SCRIPT_V8_V8CGI_MYSQL)
 
 test: test_v8_v8cgi_mysql test_v8_v8cgi_sqlite

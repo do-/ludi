@@ -1,4 +1,5 @@
 SQLite = (require 'sqlite').SQLite
 
 _db = new SQLite
-_db.open Config.db.file
+
+Db::__connect  = (o) -> _db.open o.file

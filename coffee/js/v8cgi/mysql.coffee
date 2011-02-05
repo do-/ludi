@@ -1,7 +1,9 @@
 MySQL = (require("mysql")).MySQL;
 
 _db = new MySQL
-_db.connect Config.db.host, Config.db.user, Config.db.password, Config.db.db
+
+Db::__connect  = (o) ->
+    _db.connect o.host, o.user, o.password, o.db
 
 Db::escape  = (sql) ->
     return 'NULL' if sql is null

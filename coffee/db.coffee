@@ -21,6 +21,10 @@ class Db
     arrays  : (qp)           -> @do  qp, @_append_a, {init:   [], row: @_get_array}
     objects : (qp, idx)      -> @do  qp, @_append_a, {init:   [], row: @_get_object, idx: idx}
 
+Db::connect = (o) ->
+    return if eq(o, @o) and @ping()
+    @__connect (@o = o)
+
 Db::insert_id = (table, record) ->
     @insert(table, record)
     @_insertId()

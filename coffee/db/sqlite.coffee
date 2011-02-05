@@ -1,4 +1,10 @@
 
+Db::ping = ()   ->
+    try
+        return 1 == db.int "SELECT 1"
+    catch e
+        return 0
+
 Db::escape = (s)   ->
     return 'NULL' unless s?
     "'" + (('' + s).replace /\'/i, "''") + "'"
