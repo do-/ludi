@@ -1,4 +1,4 @@
-try
+#try
 
 
     model.set 'default',
@@ -45,7 +45,7 @@ try
 
     assert.equal(sum, 0, "Unneeded actions performed")
 
-catch e
+#catch e
 
-    say e.stack
-    throw e
+#    say e.stack
+#    throw e

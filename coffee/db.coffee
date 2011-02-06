@@ -9,8 +9,8 @@ class Db
         query = (new Sql (query)).get() if is_array query
         [query, params]
 
-    int     : (qp)           -> parseInt(@scalar qp)
-    float   : (qp)           -> parseFloat(@scalar qp)
+    integer : (qp)           -> parseInt(@scalar qp)
+    number  : (qp)           -> parseFloat(@scalar qp)
     string  : (qp)           -> new String @scalar qp
     one     : (qp, callback) -> @do  qp, @_set, {one: true, row: callback}
     scalar  : (qp)           -> @one qp, @_get_scalar

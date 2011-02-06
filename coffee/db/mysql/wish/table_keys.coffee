@@ -1,6 +1,7 @@
 WishTableKeys::explore_existing = () ->
     len = 1 + @options.table.length
     db.do("SHOW KEYS FROM " + @options.table, (i) =>
+        i.key_name ?= i.index_name
         return if i.key_name is 'PRIMARY'
         part  = i.column_name
         part += "(#{i.sub_part})" if i.sub_part?

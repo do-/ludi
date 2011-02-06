@@ -31,7 +31,7 @@ class Model
         for table_name of @tables
             options.table = table_name
             table         = @tables[table_name]
-            continue      if table.abstract
+            continue      if table.is_abstract
             columns       = table.columns
             col_list      = []
             for i of columns
@@ -54,7 +54,7 @@ class Model
         return sum
 
     set: (name, table) ->
-        table.abstract = true if table.default
+        table.is_abstract = true if table.default
         t = (@tables[name] ?= {})
         protos = (i for i in @default)
         if table.proto?
@@ -66,7 +66,7 @@ class Model
             for key of proto
                 t[key] ?= {}
                 over t[key], proto[key]
-        for key in ['abstract', 'default']
+        for key in ['is_abstract', 'default']
             t[key] = table[key]
         for n of t.columns
             column = t.columns[n]

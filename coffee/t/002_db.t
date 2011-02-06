@@ -1,4 +1,4 @@
-try
+#try
 
     model.set 'default',
         default: true
@@ -25,23 +25,23 @@ try
     id = db.insert_id 'user', 
         label: 'admin'
 
-    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1,  "the right record is not found";
-    assert.equal db.int(['SELECT id       FROM user WHERE label = ?',  'admin']), id, "wrong insert id";
-    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0,  "wrong records found";
+    assert.equal db.integer(['SELECT COUNT(*) FROM user WHERE label = ?',  'admin']), 1,  "the right record is not found";
+    assert.equal db.integer(['SELECT id       FROM user WHERE label = ?',  'admin']), id, "wrong insert id";
+    assert.equal db.integer(['SELECT COUNT(*) FROM user WHERE label <> ?', 'admin']), 0,  "wrong records found";
 
     db.update 'user', 
         id   : id
         label: 'user'
 
-    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 1,  "the right record is not found";
-    assert.equal db.int(['SELECT id       FROM user WHERE label = ?',  'user']), id, "wrong insert id";
-    assert.equal db.int(['SELECT COUNT(*) FROM user WHERE label <> ?', 'user']), 0,  "wrong records found";
+    assert.equal db.integer(['SELECT COUNT(*) FROM user WHERE label = ?',  'user']), 1,  "the right record is not found";
+    assert.equal db.integer(['SELECT id       FROM user WHERE label = ?',  'user']), id, "wrong insert id";
+    assert.equal db.integer(['SELECT COUNT(*) FROM user WHERE label <> ?', 'user']), 0,  "wrong records found";
 
     db.delete 'user', 
         id   : id
         label: 'foo'
 
-    cnt = db.int(['SELECT COUNT(*) FROM user WHERE label = ?',  'user'])
+    cnt = db.integer(['SELECT COUNT(*) FROM user WHERE label = ?',  'user'])
 
     assert.equal cnt, 0,  "delete record failed";
     assert.equal typeof cnt, 'number',  "not a number returned";
@@ -83,9 +83,9 @@ try
 
     db.do ('DELETE FROM user')
 
-catch e
+#catch e
 
-    say e.stack
-    throw e    
+#    say e.stack
+#    throw e    
     
     

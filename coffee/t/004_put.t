@@ -37,7 +37,7 @@ try
     fact = db.objects(sql)
 
     assert.deepEqual fact, plan, "1st plan storing failed";    
-    assert.equal db.int(cnt), 2, "Wrong record number";    
+    assert.equal db.integer(cnt), 2, "Wrong record number";    
 
     plan = [
         {month:"2", amount:"250"}
@@ -49,7 +49,7 @@ try
     fact = db.objects(sql)
 
     assert.deepEqual fact, plan, "2nd plan storing failed";    
-    assert.equal db.int(cnt), 2, "Wrong record number";    
+    assert.equal db.integer(cnt), 2, "Wrong record number";    
 
 
 
@@ -87,7 +87,7 @@ try
     fact = db.objects(sql)
 
     assert.deepEqual fact, plan, "1st plan storing failed";    
-    assert.equal db.int(cnt), 2, "Wrong record number";    
+    assert.equal db.integer(cnt), 2, "Wrong record number";    
 
     plan = [
         {month:"2", amount:"250"}
@@ -99,7 +99,7 @@ try
     fact = db.objects(sql)
 
     assert.deepEqual fact, plan, "2nd plan storing failed";    
-    assert.equal db.int(cnt), 3, "Wrong record number";    
+    assert.equal db.integer(cnt), 3, "Wrong record number";    
 
 
 
@@ -115,7 +115,7 @@ try
     fact = db.objects(sql)
 
     assert.deepEqual fact, plan, "3rd plan storing failed";    
-    assert.equal db.int(cnt), 3, "Wrong record number";    
+    assert.equal db.integer(cnt), 3, "Wrong record number";    
 
 
 

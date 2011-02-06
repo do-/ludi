@@ -1,4 +1,4 @@
-try
+#try
 
     model.set 'default',
         default: true
@@ -62,13 +62,13 @@ try
         'user',    {id_session: null, COLUMNS:['UPPER(label) AS name']}
     )), [{"id":"1","id_user":"1","name":"ADMIN"}], "SQL 4")
 
-    assert.equal(db.int(sql(
+    assert.equal(db.integer(sql(
         'user:COUNT(*)',
     )), 2, "SQL 5")        
 
-catch e
+#catch e
 
-    say e.stack
-    throw e    
+#    say e.stack
+#    throw e    
     
     

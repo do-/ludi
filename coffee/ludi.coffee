@@ -1,8 +1,20 @@
-say  = (s) -> print s + "\n"
+json   = (o) -> JSON.stringify (o)
 
-darn = (o) -> say json o; o
+say    = (s) -> print s + "\n"
 
-debug = (s, o) -> say s + ': ' + json o; o
+darn   = (o) -> say json o; o
+
+debug  = (s, o) -> say s + ': ' + json o; o
+
+def    = (o, d) ->
+    for i of d
+        continue if typeof o[i] isnt 'undefined'
+        o[i] ?= d[i]
+    return o
+
+over    = (o, d) ->
+    o[i] = d[i] for i of d
+    return o
 
 eq = (a, b) ->
     return true   if not a? and not b?
