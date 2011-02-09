@@ -1,4 +1,4 @@
-V8_V8CGI_MYSQL_SOURCES=$(COMMON_SOURCES) $(MYSQL_SOURCES) js/v8.coffee js/v8_v8cgi.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/mysql.coffee
+V8_V8CGI_MYSQL_SOURCES=$(COMMON_SOURCES) $(MYSQL_SOURCES) js/v8_v8cgi.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/mysql.coffee
 V8_V8CGI_MYSQL_OBJECTS=$(V8_V8CGI_MYSQL_SOURCES:.coffee=.js)
 V8_V8CGI_MYSQL_LIB=../js/ludi_v8_v8cgi_mysql.js
 

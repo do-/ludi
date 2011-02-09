@@ -1,4 +1,4 @@
-V8_V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.coffee js/v8_v8cgi.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/sqlite.coffee
+V8_V8CGI_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8_v8cgi.coffee js/v8cgi/mysql_sqlite.coffee js/v8cgi/sqlite.coffee
 V8_V8CGI_SQLITE_OBJECTS=$(V8_V8CGI_SQLITE_SOURCES:.coffee=.js)
 V8_V8CGI_SQLITE_LIB=../js/ludi_v8_v8cgi_sqlite.js
 

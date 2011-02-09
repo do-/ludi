@@ -1,4 +1,4 @@
-V8_CHROME_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/v8.coffee js/gears.coffee js/gears/sqlite.coffee
+V8_CHROME_SQLITE_SOURCES=$(COMMON_SOURCES) $(SQLITE_SOURCES) js/gears.coffee js/gears/sqlite.coffee
 V8_CHROME_SQLITE_OBJECTS=$(V8_CHROME_SQLITE_SOURCES:.coffee=.js)
 V8_CHROME_SQLITE_LIB=../js/ludi_v8_chrome_sqlite.js
 
