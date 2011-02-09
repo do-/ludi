@@ -25,7 +25,7 @@ class Sql
                     @tables.push last
 
     set_default_columns: (table) ->
-        return if table.COLUMNS?
+        return if table.COLUMNS? and table.COLUMNS.length > 0
         definition = model.tables[table.TABLE]
         throw "Table '#{table.TABLE}' is not defined in model" if !definition?
         table.COLUMNS = (i for i of definition.columns)
@@ -49,7 +49,6 @@ class Sql
 
         if table.IS_ROOT and !table.ORDER?
             col.ORDER = model.order table.TABLE, i
-
         col.EXPRESSION = @globalize_expression table, i
         col.SELECT = if col.EXPRESSION is col.ALIAS and col.ALIAS.match(/^\w+$/) then col.ALIAS else "#{col.EXPRESSION} #{db.quote_name(col.ALIAS)}"
         col.IS_AGGR = @is_aggr col.EXPRESSION

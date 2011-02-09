@@ -11,4 +11,4 @@ test_script_v8_chrome_sqlite: $(V8_CHROME_SQLITE_LIB) $(TEST_SOURCES) $(TEST_OBJ
 	$(CSL) $(V8_CHROME_SQLITE_LIB) ../js/chrome_connect.js $(TEST_OBJECTS) > $(TEST_SCRIPT_V8_CHROME_SQLITE)
 
 test_v8_chrome_sqlite: test_script_v8_chrome_sqlite
-	"C:\Documents and Settings\d0\Local Settings\Application Data\Google\Chrome\Application\chrome.exe" c:\projects\eludia_cs\coffee\t\v8_chrome_sqlite.html
+	$(CHROME_BROWSER) c:\projects\eludia_cs\coffee\t\v8_chrome_sqlite.html
