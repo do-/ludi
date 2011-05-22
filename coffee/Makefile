@@ -1,14 +1,5 @@
-#MINIFY=| perl -MJavaScript::Minifier -e"print JavaScript::Minifier::minify(input=>*STDIN)"
+include local.mk 
 
-V8_V8CGI_ROOT=c:\Progra~1\v8cgi\ 
-V8_V8CGI_BIN=$(V8_V8CGI_ROOT)v8cgi -c $(V8_V8CGI_ROOT)v8cgi.conf ../tools/
-RHINO_BIN=c:\Progra~1\Rhino\js.cmd
-CHROME_BROWSER="C:\Documents and Settings\d0\Local Settings\Application Data\Google\Chrome\Application\chrome.exe"
-FF_BROWSER="C:\Program Files\Mozilla Firefox\firefox.exe"
-
-CSC=$(V8_V8CGI_BIN)csc.js 
-CSL=$(V8_V8CGI_BIN)csl.js 
-RM=$(V8_V8CGI_BIN)rm.js 
 T=$(V8_V8CGI_BIN)t.js 
 
 COMMON_SOURCES=ludi.coffee sprintf.coffee log.coffee db.coffee sql.coffee model.coffee wish.coffee wish/table_data.coffee wish/table_data_rooted.coffee wish/table_columns.coffee wish/table_keys.coffee testing.coffee
@@ -20,8 +11,7 @@ TEST_OBJECTS=$(TEST_SOURCES:.coffee=.js)
 
 .SUFFIXES: .js .coffee .t
 
-.coffee.js:
-	$(CSC) $< > $@
+include build_node.mk
 
 include v8_v8cgi_sqlite.mk 
 include v8_v8cgi_mysql.mk 
