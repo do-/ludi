@@ -2,3 +2,4 @@ coffee/local.mk
 /build/*
 /js/*
 /t/*
+/coffee/t/*.js
