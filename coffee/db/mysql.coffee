@@ -11,3 +11,5 @@ Db::escape = (s)   ->
 
 Db::quote_name = (s)   ->
     '`' + s + '`'
+
+Db::_insertId = () -> db.integer 'SELECT LAST_INSERT_ID()'
