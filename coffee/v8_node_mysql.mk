@@ -1,4 +1,4 @@
-V8_NODE_MYSQL_SOURCES=$(COMMON_SOURCES) $(MYSQL_SOURCES) js/v8_node.coffee js/node/mysql.coffee
+V8_NODE_MYSQL_SOURCES=$(COMMON_SOURCES) $(MYSQL_SOURCES) js/v8_node.coffee js/node/mysql.coffee js/node/server.coffee
 V8_NODE_MYSQL_OBJECTS=$(V8_NODE_MYSQL_SOURCES:.coffee=.js)
 V8_NODE_MYSQL_LIB=../js/ludi_v8_node_mysql.js
 
