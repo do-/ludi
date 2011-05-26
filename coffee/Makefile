@@ -30,7 +30,7 @@ all: all_libs
 clean:
 	$(RM) $(ALL_OBJECTS) $(TEST_SOURCES) $(ALL_TEST_SCRIPTS)
 
-$(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t t/004_put.t t/005_sql.t t/006_string.t 
+$(TEST_SOURCES): t/001_model_update.t t/002_db.t t/003_is_array.t t/004_put.t t/005_sql.t t/006_string.t t/007_server.t
 	$(T) t
 
 test: test_rhino_standalone_mysql test_v8_v8cgi_mysql test_v8_v8cgi_sqlite test_v8_chrome_sqlite test_ms_iis_mysql test_monkey_ff_sqlite test_v8_node_mysql

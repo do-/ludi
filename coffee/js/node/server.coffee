@@ -14,7 +14,7 @@ class Server
     GET: (req, res) ->
         context =
             REQUEST: url.parse(req.url, true).query
-        @sendResponse res, get_result_json_by_context(context)
+        @sendResponse res, get_result_text_by_context(context)
 
     POST: (req, res) ->
         context = null
@@ -22,7 +22,7 @@ class Server
             context =
                 REQUEST: fields
                 FILES:   files
-        finalizer = () -> @sendResponse(res, get_result_json_by_context(context))
+        finalizer = () -> @sendResponse(res, get_result_text_by_context(context))
         new formidable.IncomingForm().parse(req, parser).on('end', finalizer)
 
     handler: (req, res) -> @the_server[req.method](req, res)
