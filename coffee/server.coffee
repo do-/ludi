@@ -20,7 +20,7 @@ get_result_object_by_context = (context) ->
         a[0] = get_result_object_in_context.apply context
     catch e
         if e instanceof Error
-            e = {message:e.message, stack:e.stack}
+            e = {message:e.message, stack:e.stack, field:e.field}
         a[1] = e
     a
 

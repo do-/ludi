@@ -12,6 +12,12 @@ def    = (o, d) ->
         o[i] ?= d[i]
     return o
 
+die    = (x) ->
+    if is_array x
+        throw {message: x[1], field: x[0]}
+    else
+        throw {message: x}
+
 over    = (o, d) ->
     o[i] = d[i] for i of d
     return o

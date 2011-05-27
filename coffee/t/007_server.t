@@ -56,17 +56,17 @@ try
         execute: () -> 
     
             if !@REQUEST.login
-                throw 'Empty login'
+                die ['login', 'Empty login']
             
             user = db.object sql(
                 'user', {login: @REQUEST.login}
                 '-> session ON session.id_user = user.id')
             
             if !user?
-                throw "Login #{@REQUEST.login} not found"
+                die ['login', "Login #{@REQUEST.login} not found"]
         
             if !(user.password == @REQUEST.password)
-                throw 'Wrong password'
+                die ['password', 'Wrong password']
         
             if !(user?.session?.id)
                 user.session = 
