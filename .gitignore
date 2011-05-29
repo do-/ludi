@@ -1,5 +1,7 @@
-coffee/local.mk
 /build/*
 /js/*
 /t/*
-/coffee/t/*.js
+/core/t/*.js
+/local/*.js
+/local/Makefile
+/compiled/*.js

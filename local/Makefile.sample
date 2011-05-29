@@ -1,7 +1,7 @@
 #MINIFY=| perl -MJavaScript::Minifier -e"print JavaScript::Minifier::minify(input=>*STDIN)"
 
-V8_V8CGI_ROOT=c:\Progra~1\v8cgi\ 
-V8_V8CGI_BIN=$(V8_V8CGI_ROOT)v8cgi -c $(V8_V8CGI_ROOT)v8cgi.conf ../tools/
+V8_V8CGI_BIN=node ../tools/
+V8_NODE_BIN=node ../tools/
 RHINO_BIN=c:\Progra~1\Rhino\js.cmd
 CHROME_BROWSER="C:\Documents and Settings\d0\Local Settings\Application Data\Google\Chrome\Application\chrome.exe"
 FF_BROWSER="C:\Program Files\Mozilla Firefox\firefox.exe"

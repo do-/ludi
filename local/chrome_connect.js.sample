@@ -1,0 +1,10 @@
+var name = 'ludi_test';
+
+var __db = google.gears.factory.create ('beta.database');
+
+__db.open   (name);
+__db.remove (name);
+
+db.connect ({
+	name: 'ludi_test'
+});
