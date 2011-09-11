@@ -33,7 +33,8 @@
 	</target>	
 	
 	<target name="compile" depends="init" description="Compiles the sources">
-		<coffee destDir="${build.classes.dir}" includes="**/*.coffee" noWrap="true" verbose="true" />		
+		<coffee destDir="${build.classes.dir}" includes="src/*.coffee" noWrap="true" verbose="true" />		
+		<coffee destDir="${build.classes.dir}" includes="test/*.t"     noWrap="true" verbose="true" />		
 	</target>
 
 	<target name="compress" description="Compresses the result">
@@ -48,11 +49,12 @@
 		log.js 
 		db.js 
 		sql.js 
-		model.js 
 		wish.js 
 		wish_table_data.js 
 		wish_table_data_rooted.js 
 		wish_table_columns.js
+		wish_table_keys.js
+		model.js 
 	"/>
 	
 	<filelist id="sqlite" dir="${build.classes.dir}" files="
@@ -75,7 +77,19 @@
 		js_rhino.js 
 	"/>
 
-	<target name="rhino_mysql" depends="compile">
+	<filelist id="tests" dir="${build.classes.dir}" files="
+		testing.js
+		006_string.js
+	"/>
+
+	<target name="build_test">
+		<concat destfile="${build.output.dir}/test.js">
+			<filelist dir="${dist.dir}" files="ludi.js" />
+			<filelist refid="tests" />
+		</concat>
+	</target>
+
+	<target name="build_rhino_mysql" depends="compile">
 		<concat destfile="${build.output.dir}/ludi.js">
 			<filelist refid="json"   />
 			<filelist refid="common" />
@@ -84,6 +98,8 @@
 			<filelist dir="${build.classes.dir}" files="js_rhino_mysql.js" />
 		</concat>
 		<antcall target="compress" />
+		<antcall target="build_test" />
+		<exec command="${bin.rhino} build/bin/test.js" />
   </target>
 
 </project>

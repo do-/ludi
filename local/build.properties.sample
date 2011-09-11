@@ -1,3 +1,4 @@
+bin.rhino			= c:/Progra~1/Rhino/js.cmd
 
 jat.dir				= ../js-ant-tasks/build
 
