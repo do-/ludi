@@ -1,0 +1,14 @@
+
+jat.dir				= ../js-ant-tasks/build
+
+jsat.jar                        = ${jat.dir}/bin/js-ant-tasks-0.1.jar
+rhino.jar                       = ${jat.dir}/lib/rhino-1.7R2.jar
+yuicompressor.jar               = ${jat.dir}/lib/yuicompressor-2.4.7pre.jar
+
+src.dir                         = src
+lib.dir                         = lib
+build.dir                       = build
+dist.dir                        = dist
+
+build.classes.dir               = build/classes
+build.output.dir                = build/bin

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<project>
+
+	<property file="local/build.properties" />
+	
+	<taskdef name="coffee" classname="csat.CoffeeScriptCTask">
+		<classpath>
+			<pathelement path="${jsat.jar}" />
+			<pathelement path="${rhino.jar}" />
+		</classpath>
+	</taskdef>
+	
+  <taskdef name="compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
+		<classpath>
+			<pathelement path="${jsat.jar}" />
+			<pathelement path="${yuicompressor.jar}" />
+		</classpath>
+	</taskdef>
+
+	<target name="init" description="Initializes directory layout">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.output.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${lib.dir}" />
+		</copy>
+	</target>
+
+	<target name="clean" description="Removes all build artefacts">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>	
+	
+	<target name="compile" depends="init" description="Compiles the sources">
+		<coffee destDir="${build.classes.dir}" includes="**/*.coffee" noWrap="true" verbose="true" />		
+	</target>
+
+	<target name="compress" description="Compresses the result">
+		<compressor warn="false" munge="true" jsSuffix=".js" preserveAllSemiColons="false" fromDir="${build.output.dir}" toDir="${dist.dir}">
+			<include name="*.js" />
+		</compressor>
+	</target>	
+	
+	<filelist id="common" dir="${build.classes.dir}" files="
+		ludi.js 
+		sprintf.js 
+		log.js 
+		db.js 
+		sql.js 
+		model.js 
+		wish.js 
+		wish_table_data.js 
+		wish_table_data_rooted.js 
+		wish_table_columns.js
+	"/>
+	
+	<filelist id="sqlite" dir="${build.classes.dir}" files="
+		db_sqlite.js 
+		db_sqlite_wish_table_columns.js 
+		db_sqlite_wish_table_keys.js
+	"/>
+
+	<filelist id="mysql" dir="${build.classes.dir}" files="
+		db_mysql.js 
+		db_mysql_wish_table_columns.js 
+		db_mysql_wish_table_keys.js
+	"/>
+
+	<filelist id="json" dir="${build.classes.dir}" files="
+		json2.js 
+	"/>
+
+	<filelist id="rhino" dir="${build.classes.dir}" files="
+		js_rhino.js 
+	"/>
+
+	<target name="rhino_mysql" depends="compile">
+		<concat destfile="${build.output.dir}/ludi.js">
+			<filelist refid="json"   />
+			<filelist refid="common" />
+			<filelist refid="mysql"  />
+			<filelist refid="rhino"  />
+			<filelist dir="${build.classes.dir}" files="js_rhino_mysql.js" />
+		</concat>
+		<antcall target="compress" />
+  </target>
+
+</project>
