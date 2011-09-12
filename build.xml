@@ -79,12 +79,18 @@
 
 	<filelist id="tests" dir="${build.classes.dir}" files="
 		testing.js
-		006_string.js
+		0010_string.js
+		0020_is_array.js
+		0030_model_update.js
+		0040_db.js
+		0050_put.js
+		0060_sql.js
 	"/>
 
 	<target name="build_test">
 		<concat destfile="${build.output.dir}/test.js">
-			<filelist dir="${dist.dir}" files="ludi.js" />
+			<filelist dir="${build.output.dir}" files="ludi.js" />
+			<filelist dir="local" files="test_init.js" />
 			<filelist refid="tests" />
 		</concat>
 	</target>

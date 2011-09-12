@@ -20,7 +20,7 @@ try
     
     db.do ('DELETE FROM plan')
 
-    sql = 'SELECT month, amount FROM plan WHERE year = 2011 ORDER BY month'
+    sql_ = 'SELECT month, amount FROM plan WHERE year = 2011 ORDER BY month'
     cnt = 'SELECT COUNT(*) FROM plan'
     
 
@@ -34,7 +34,7 @@ try
 
     db.put 'plan', plan, 'month', {year:"2011"};
 
-    fact = db.objects(sql)
+    fact = db.objects(sql_)
 
     assert.deepEqual fact, plan, "1st plan storing failed";    
     assert.equal db.integer(cnt), 2, "Wrong record number";    
@@ -46,7 +46,7 @@ try
 
     db.put 'plan', plan, 'month', {year:"2011"};
     
-    fact = db.objects(sql)
+    fact = db.objects(sql_)
 
     assert.deepEqual fact, plan, "2nd plan storing failed";    
     assert.equal db.integer(cnt), 2, "Wrong record number";    
@@ -70,7 +70,7 @@ try
 
     model.assert()
 
-    sql = 'SELECT month, amount FROM plan WHERE year = 2011 AND id_session IS NULL ORDER BY month'
+    sql_ = 'SELECT month, amount FROM plan WHERE year = 2011 AND id_session IS NULL ORDER BY month'
     cnt = 'SELECT COUNT(*) FROM plan'
 
 
@@ -84,7 +84,7 @@ try
 
     db.put 'plan', plan, 'month', {year:"2011"};
 
-    fact = db.objects(sql)
+    fact = db.objects(sql_)
 
     assert.deepEqual fact, plan, "1st plan storing failed";    
     assert.equal db.integer(cnt), 2, "Wrong record number";    
@@ -96,7 +96,7 @@ try
 
     db.put 'plan', plan, 'month', {year:"2011"};
     
-    fact = db.objects(sql)
+    fact = db.objects(sql_)
 
     assert.deepEqual fact, plan, "2nd plan storing failed";    
     assert.equal db.integer(cnt), 3, "Wrong record number";    
@@ -112,7 +112,7 @@ try
 
     db.put 'plan', plan, 'month', {year:"2011"};
     
-    fact = db.objects(sql)
+    fact = db.objects(sql_)
 
     assert.deepEqual fact, plan, "3rd plan storing failed";    
     assert.equal db.integer(cnt), 3, "Wrong record number";    
