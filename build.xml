@@ -87,6 +87,11 @@
 		js_ms.js 
 	"/>
 
+	<filelist id="node" dir="${build.classes.dir}" files="
+		js_v8_node.js
+		js_node_server.js
+	"/>
+
 	<filelist id="tests" dir="${build.classes.dir}" files="
 		testing.js
 		0010_string.js
@@ -158,6 +163,18 @@
 		</concat>
 		<antcall target="build_and_run_test">
 			<param name="cmd" value="${test.cmd.v8cgi}" />
+		</antcall>
+  </target>
+
+	<target name="build_node_mysql" depends="compile">
+		<concat destfile="${lib.file}">
+			<filelist refid="common" />
+			<filelist refid="mysql"  />
+			<filelist refid="node"  />
+			<filelist dir="${build.classes.dir}" files="js_node_mysql.js" />
+		</concat>
+		<antcall target="build_and_run_test">
+			<param name="cmd" value="${test.cmd.node}" />
 		</antcall>
   </target>
 
