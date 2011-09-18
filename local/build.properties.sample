@@ -1,4 +1,6 @@
 bin.rhino			= c:/Progra~1/Rhino/js.cmd
+bin.chrome			= "${ENV.USERPROFILE}\\Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"
+bin.browser			= ${bin.chrome}
 
 jat.dir				= ../js-ant-tasks/build
 

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project>
 
+	<property environment="ENV" />
 	<property file="local/build.properties" />
 	
 	<taskdef name="coffee" classname="csat.CoffeeScriptCTask">
@@ -77,6 +78,10 @@
 		js_rhino.js 
 	"/>
 
+	<filelist id="ms" dir="${build.classes.dir}" files="
+		js_ms.js 
+	"/>
+
 	<filelist id="tests" dir="${build.classes.dir}" files="
 		testing.js
 		0010_string.js
@@ -106,6 +111,19 @@
 		<antcall target="compress" />
 		<antcall target="build_test" />
 		<exec command="${bin.rhino} build/bin/test.js" />
+  </target>
+
+	<target name="build_ms_mysql" depends="compile">
+		<concat destfile="${build.output.dir}/ludi.js">
+			<filelist refid="json"   />
+			<filelist refid="common" />
+			<filelist refid="mysql"  />
+			<filelist refid="ms"  />
+			<filelist dir="${build.classes.dir}" files="js_ms_mysql.js" />
+		</concat>
+		<antcall target="compress" />
+		<antcall target="build_test" />
+		<exec command="${bin.browser} http://127.0.0.1/" />
   </target>
 
 </project>
