@@ -78,6 +78,11 @@
 		js_rhino.js 
 	"/>
 
+	<filelist id="v8cgi" dir="${build.classes.dir}" files="
+		js_v8_v8cgi.js
+		js_v8cgi_mysql_sqlite.js
+	"/>
+
 	<filelist id="ms" dir="${build.classes.dir}" files="
 		js_ms.js 
 	"/>
@@ -124,6 +129,30 @@
 		<antcall target="compress" />
 		<antcall target="build_test" />
 		<exec command="${bin.browser} http://127.0.0.1/" />
+  </target>
+
+	<target name="build_v8cgi_mysql" depends="compile">
+		<concat destfile="${build.output.dir}/ludi.js">
+			<filelist refid="common" />
+			<filelist refid="mysql"  />
+			<filelist refid="v8cgi"  />
+			<filelist dir="${build.classes.dir}" files="js_v8cgi_mysql.js" />
+		</concat>
+		<antcall target="compress" />
+		<antcall target="build_test" />
+		<exec command="${bin.v8cgi} -c ${bin.v8cgi.conf} build/bin/test.js" />
+  </target>
+
+	<target name="build_v8cgi_sqlite" depends="compile">
+		<concat destfile="${build.output.dir}/ludi.js">
+			<filelist refid="common" />
+			<filelist refid="sqlite"  />
+			<filelist refid="v8cgi"  />
+			<filelist dir="${build.classes.dir}" files="js_v8cgi_sqlite.js" />
+		</concat>
+		<antcall target="compress" />
+		<antcall target="build_test" />
+		<exec command="${bin.v8cgi} -c ${bin.v8cgi.conf} build/bin/test.js" />
   </target>
 
 </project>

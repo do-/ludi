@@ -1,3 +1,6 @@
+bin.v8cgi			= "${ENV.ProgramFiles}\\v8cgi\\v8cgi.exe"
+bin.v8cgi.conf			= "${ENV.ProgramFiles}\\v8cgi\\v8cgi.conf"
+
 bin.rhino			= c:/Progra~1/Rhino/js.cmd
 bin.chrome			= "${ENV.USERPROFILE}\\Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"
 bin.browser			= ${bin.chrome}
