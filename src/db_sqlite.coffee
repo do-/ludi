@@ -1,7 +1,7 @@
 
 Db::ping = ()   ->
     try
-        return 1 == db.int "SELECT 1"
+        return 1 == db.integer "SELECT 1"
     catch e
         return 0
 
