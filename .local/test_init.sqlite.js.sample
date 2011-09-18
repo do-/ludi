@@ -1,0 +1,8 @@
+var file = 'c:/projects/eludia_cs/t/v8.db';
+
+var p = new (require('process').Process)();
+p.system ('del /F /Q ' + file.replace (/\//g, '\\'));
+
+db.connect ({
+	file: file
+});

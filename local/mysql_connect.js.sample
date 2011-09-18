@@ -1,8 +1,0 @@
-var name = 'test';
-
-db.connect ({
-	host:		'some_host'
-	, user:		'some_user'
-	, password:	'some_password'
-	, db:		'some_database'
-});

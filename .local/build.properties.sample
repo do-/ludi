@@ -18,3 +18,8 @@ dist.dir                        = dist
 
 build.classes.dir               = build/classes
 build.output.dir                = build/bin
+
+lib.file			= ${build.output.dir}/ludi.js
+test.file			= ${build.output.dir}/test.js
+
+test.cmd.v8cgi			= ${bin.v8cgi} -c ${bin.v8cgi.conf} build/bin/test.js

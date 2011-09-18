@@ -3,7 +3,5 @@
 /js/*
 /t/*
 /core/t/*.js
-/local/*.js
-/local/*.properties
-/local/Makefile
-/compiled/*.js
+/.local/*.js
+/.local/*.properties

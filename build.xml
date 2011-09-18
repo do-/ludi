@@ -2,7 +2,7 @@
 <project>
 
 	<property environment="ENV" />
-	<property file="local/build.properties" />
+	<property file=".local/build.properties" />
 	
 	<taskdef name="coffee" classname="csat.CoffeeScriptCTask">
 		<classpath>
@@ -100,59 +100,65 @@
 	<target name="build_test">
 		<concat destfile="${build.output.dir}/test.js">
 			<filelist dir="${build.output.dir}" files="ludi.js" />
-			<filelist dir="local" files="test_init.js" />
+			<filelist dir=".local" files="test_init.js" />
 			<filelist refid="tests" />
 		</concat>
 	</target>
 
+	<target name="build_and_run_test">
+		<antcall target="compress" />
+		<antcall target="build_test" />
+		<exec command="${cmd}" />
+	</target>
+
 	<target name="build_rhino_mysql" depends="compile">
-		<concat destfile="${build.output.dir}/ludi.js">
+		<concat destfile="${lib.file}">
 			<filelist refid="json"   />
 			<filelist refid="common" />
 			<filelist refid="mysql"  />
 			<filelist refid="rhino"  />
 			<filelist dir="${build.classes.dir}" files="js_rhino_mysql.js" />
 		</concat>
-		<antcall target="compress" />
-		<antcall target="build_test" />
-		<exec command="${bin.rhino} build/bin/test.js" />
+		<antcall target="build_and_run_test">
+			<param name="cmd" value="${bin.rhino} ${test.file}" />
+		</antcall>
   </target>
 
 	<target name="build_ms_mysql" depends="compile">
-		<concat destfile="${build.output.dir}/ludi.js">
+		<concat destfile="${lib.file}">
 			<filelist refid="json"   />
 			<filelist refid="common" />
 			<filelist refid="mysql"  />
 			<filelist refid="ms"  />
 			<filelist dir="${build.classes.dir}" files="js_ms_mysql.js" />
 		</concat>
-		<antcall target="compress" />
-		<antcall target="build_test" />
-		<exec command="${bin.browser} http://127.0.0.1/" />
+		<antcall target="build_and_run_test">
+			<param name="cmd" value="${bin.browser} http://127.0.0.1/" />
+		</antcall>
   </target>
 
 	<target name="build_v8cgi_mysql" depends="compile">
-		<concat destfile="${build.output.dir}/ludi.js">
+		<concat destfile="${lib.file}">
 			<filelist refid="common" />
 			<filelist refid="mysql"  />
 			<filelist refid="v8cgi"  />
 			<filelist dir="${build.classes.dir}" files="js_v8cgi_mysql.js" />
 		</concat>
-		<antcall target="compress" />
-		<antcall target="build_test" />
-		<exec command="${bin.v8cgi} -c ${bin.v8cgi.conf} build/bin/test.js" />
+		<antcall target="build_and_run_test">
+			<param name="cmd" value="${test.cmd.v8cgi}" />
+		</antcall>
   </target>
 
 	<target name="build_v8cgi_sqlite" depends="compile">
-		<concat destfile="${build.output.dir}/ludi.js">
+		<concat destfile="${lib.file}">
 			<filelist refid="common" />
 			<filelist refid="sqlite"  />
 			<filelist refid="v8cgi"  />
 			<filelist dir="${build.classes.dir}" files="js_v8cgi_sqlite.js" />
 		</concat>
-		<antcall target="compress" />
-		<antcall target="build_test" />
-		<exec command="${bin.v8cgi} -c ${bin.v8cgi.conf} build/bin/test.js" />
+		<antcall target="build_and_run_test">
+			<param name="cmd" value="${test.cmd.v8cgi}" />
+		</antcall>
   </target>
 
 </project>
