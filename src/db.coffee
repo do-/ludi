@@ -4,9 +4,18 @@ class Db
     _append_s  : (record, result) -> result += ',' + record
     _append_a  : (record, result) -> result.push record; result
 
+    sql_limit_offset : (sql, offset, limit) -> "#{sql} LIMIT #{limit} OFFSET #{offset}"
+
     qp      : (qp) ->
         [query, params] = if is_array qp then qp else [qp, []]
-        query = (new Sql (query)).get() if is_array query
+        if is_array query
+            [query, params] = (new Sql (query)).get()
+        if params.length > 0
+            last_param = params[params.length - 1]
+            if is_array(last_param) && query.match /^\s*SELECT/i
+                [offset, limit] = params.pop()
+                @__last_qp_without_limit = [query, params]
+                query = @sql_limit_offset (query), (offset ?= 0), limit
         [query, params]
 
     integer : (qp)           -> parseInt(@scalar qp)
@@ -20,6 +29,11 @@ class Db
     column  : (qp)           -> @do  qp, @_append_a, {init:   [], row: @_get_scalar}
     arrays  : (qp)           -> @do  qp, @_append_a, {init:   [], row: @_get_array}
     objects : (qp, idx)      -> @do  qp, @_append_a, {init:   [], row: @_get_object, idx: idx}
+
+    found   : ()             ->
+        [query, params] = @__last_qp_without_limit
+        m = query.match /(FROM.*?)(ORDER\s+BY.*)/ig
+        @scalar "SELECT COUNT(*) #{m[0]}", params
 
 Db::connect = (o) ->
     return if eq(o, @o) and @ping()
