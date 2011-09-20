@@ -32,8 +32,8 @@ class Db
 
     found   : ()             ->
         [query, params] = @__last_qp_without_limit
-        m = query.match /(FROM.*?)(ORDER\s+BY.*)/ig
-        @scalar "SELECT COUNT(*) #{m[0]}", params
+        m = query.match /(FROM.*)/i
+        @scalar "SELECT COUNT(*) #{m[0]}".replace(/\s*\/\*VOCABULARY\.\.\.\*\/.*?\/\*\.\.\.VOCABULARY\*\/\s*/g, ' ').replace(/\s+ORDER\s+BY.*/i, ''), params
 
 Db::connect = (o) ->
     return if eq(o, @o) and @ping()

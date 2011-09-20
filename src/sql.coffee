@@ -94,13 +94,14 @@ class Sql
         unless table.ON?
             throw "Unjoined #{table.FROM}"
 
-        table.FROM  = " #{table.JOIN ?= 'LEFT'} JOIN #{table.FROM} ON "
+        table.FROM  = " /*#{table.ROLE}...*/ #{table.JOIN ?= 'LEFT'} JOIN #{table.FROM} ON "
         table.FROM += "(" if table.FILTERS.length > 0
         table.FROM += table.ON
         for i in table.FILTERS
             table.FROM += " AND #{i.EXPRESSION}"
             @parameters.push j for j in i.VALUES
         table.FROM += ")" if table.FILTERS.length > 0
+        table.FROM += " /*...#{table.ROLE}*/"
 
     parse_table: (table) ->
 
@@ -257,4 +258,8 @@ class Sql
             past_tables.push table
             @joined_tables.push table unless table.IS_ROOT
         @cols_by_aggr[0].sort((a, b) -> a.ORDER - b.ORDER)
+        if @root.LIMIT
+            limit = @root.LIMIT
+            limit = [0, limit] if !is_array limit
+            @parameters.push limit
         [@get_sql_select(), @parameters]

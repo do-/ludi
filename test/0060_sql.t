@@ -38,13 +38,13 @@
         data:
             1:
                 id_user:1
-                
+
     model.assert()
     db.do "DELETE FROM #{i}" for i in ['user', 'session']
     model.assert()
 
     assert.deepEqual(db.arrays(sql 'user:id,label'), [["admin","1"],["user","2"]], "SQL 1")
-    
+
     assert.deepEqual(db.objects(sql 'user'), [{"label":"admin","id":"1","id_session":null},{"label":"user","id":"2","id_session":null}], "SQL 2")
 
     assert.deepEqual(db.object(sql(
@@ -64,11 +64,22 @@
 
     assert.equal(db.integer(sql(
         'user:COUNT(*)',
-    )), 2, "SQL 5")        
+    )), 2, "SQL 5")
+
+    assert.equal(db.objects(sql(
+        'user', {LIMIT: [0, 1]},
+        '-> session'
+    )).length, 1, "SQL / LIMIT 1");
+
+    assert.equal(db.objects(sql(
+        'user', {LIMIT: 1},
+        '-> session'
+    )).length, 1, "SQL / LIMIT 2");
+
+    assert.equal(db.found(), 2, "SQL / found");
 
 #catch e
 
 #    say e.stack
-#    throw e    
-    
-    
+#    throw e
+
