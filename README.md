@@ -14,20 +14,20 @@ to javaScript and without any native presentation layer.
 For the rest of audience, Ludi.js is a library connecting different 
 server side and offline js engines such as
 
-* node.js
-* v8cgi
-* Mozilla Rhino
-* MS JScript
+* node.js (http://nodejs.org/)
+* v8cgi (http://code.google.com/p/v8cgi)
+* Mozilla Rhino (http://www.mozilla.org/rhino/)
+* MS JScript (http://en.wikipedia.org/wiki/JScript)
 * maybe Adobe AIR
 * maybe HTML5
 
 (with their server APIs and database drivers) to modern AJAX widget sets like
 
-* Sencha ExtJS
-* DHTMLX
-* jsLinb (== Sigma Widgets)
-* ZKuery (zk MINUS servlets)
-* DynarchLIB
+* Sencha ExtJS (http://www.sencha.com/products/extjs/)
+* DHTMLX (http://dhtmlx.com/) 
+* jsLinb (== Sigma Widgets, http://www.linb.net/)
+* ZKuery (http://code.google.com/p/zkuery/ == zk, http://www.zkoss.org/, MINUS servlets)
+* DynarchLIB (http://www.dynarchlib.com/)
 
 The main goal of the project is to provide a unified handy minimalistic API
 for developing portable Web applications targeting js as a core platorm.

@@ -1,10 +1,10 @@
 PREREQUISITES
 =============
 
-Ludi.js is written is CoffeeScript.
+Ludi.js is written is CoffeeScript (http://jashkenas.github.com/coffee-script/).
 
-To translate it in pure js, a java implementation of js (Rhino) is used
-together with ant, the standard java build tool.
+To translate it in pure js, Rhino (http://www.mozilla.org/rhino/), a java implementation of js 
+is used together with ant (http://ant.apache.org/), the standard java build tool.
 
 So, to build ludi.js one have to get first up and running the following:
 
@@ -19,7 +19,7 @@ CONFIGURING
 
 All installation specific files are located in the `.local` directory.
 
-1. Copy `build.properties.sample` as `build.properties` and edit it. 
+1. Copy `build.properties.sample` to `build.properties` and edit it. 
 Some properties may appear senseless for your case: say `bin.v8cgi`
 if you don't use v8cgi.
 
@@ -31,18 +31,18 @@ BUILDING ITSELF
 
 Choose a target and invoke `ant` for it. Then the following will happen:
 
-* CoffeeScript will be translated to javaScript;
+* CoffeeScript files will be translated to javaScript;
 * the needed ones will be concatenated into one library file: `build/bin/ludi.js`;
-* it will be optimized with YUI Compressor resulting `dist/ludi.js`;
-* a test script will be built and run iimediately.
+* the last will be optimized with YUI Compressor (http://developer.yahoo.com/yui/compressor/) resulting `dist/ludi.js`;
+* a test script will be built and run immediately.
 
 Futhermore, individual build targets are explained.
 
 build_rhino_mysql
 -----------------
 
-The resulting library is meant to be loaded into some java program (with Rhino) and 
-interact with MySQL server using JDBC driver.
+The resulting library is meant to be loaded into some java program (with the aid of Rhino) 
+and interact with MySQL server using the JDBC driver.
 
 To run tests, you must set `bin.rhino` to the name of a hand written script like
 
@@ -72,4 +72,4 @@ Nearly the same thing as above, but with SQLite as database.
 build_node_mysql
 ----------------
 
-The library for node.js and MySQL. 
+The library for node.js and MySQL.
